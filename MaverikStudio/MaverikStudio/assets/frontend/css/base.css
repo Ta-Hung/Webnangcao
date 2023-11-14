@@ -1,0 +1,85 @@
+:root {
+    
+}
+
+* {
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: 'Quicksand', sans-serif;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .locked-scroll {
+        overflow: hidden;
+    }
+}
+
+.show {
+    display: block !important;
+}
+
+.pull {
+    cursor: grabbing !important;
+    transition: all 0s ease 0s !important;
+}
+
+.rotate180 {
+    transform: rotate(180deg) !important;
+}
+
+.button-dark {
+    position: relative;
+    display: inline-block;
+    padding: 10px 28px;
+    line-height: normal;
+    color: #fff;
+    border: 1px solid #000000;
+    border-radius: 0;
+    text-transform: uppercase;
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 1px;
+    background-color: transparent;
+    transition: color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86),border 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    z-index: 1;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.button-dark::before {
+    position: absolute;
+    content: '';
+    display: block;
+    left: -2px;
+    top: 0;
+    right: -2px;
+    bottom: 0;
+    transform: scale(1, 1);
+    transform-origin: left center;
+    z-index: -1;
+    background-color: #000000;
+    transition: transform 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.button-dark:hover::before {
+    transform-origin: right center;
+    transform: scale(0, 1);
+}
+
+.button-dark:hover {
+    color: #000;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(85, 85, 85);
+    border-radius: 5px;
+}
+

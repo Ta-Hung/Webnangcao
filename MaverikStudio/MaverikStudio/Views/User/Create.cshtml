@@ -1,0 +1,215 @@
+﻿
+@model MaverikStudio.Models.user
+@{
+    Layout = "~/Views/Shared/backend.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <style>
+        .label-for-form label {
+            font-weight: 500 !important;
+        }
+    </style>
+}
+<form action="@Url.Action("HandleCreate", "User")" method="POST" class="form-group label-for-form" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Tên người dùng</label>
+                        <input type="text" name="name" value="@(TempData["name"] != null ? TempData["name"] : "")" placeholder="Tên..." class="form-control" />
+                        @if (TempData["err_user_name"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_name"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Địa chỉ</label>
+                        <input type="text" name="address" value="@(TempData["address"] != null ? TempData["address"] : "")" placeholder="Địa chỉ..." class="form-control" />
+                        @if (TempData["err_user_address"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_address"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Số điện thoại</label>
+                        <input type="text" name="phone_number" value="@(TempData["phone_number"] != null ? TempData["phone_number"] : "")" placeholder="Số điện thoại..." class="form-control" />
+                        @if (TempData["err_user_phone_number"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_phone_number"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Lương</label>
+                        <input type="text" name="salary" value="@(TempData["salary"] != null ? TempData["salary"] : "")" placeholder="Lương..." class="form-control" />
+                        @if (TempData["err_user_salary"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_salary"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="text" name="email" value="@(TempData["email"] != null ? TempData["email"] : "")" placeholder="Email..." class="form-control" />
+                        @if (TempData["err_user_email"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_email"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Mật khẩu</label>
+                        <input type="password" name="password" value="@(TempData["password"] != null ? TempData["password"] : "")" placeholder="Mật khẩu..." class="form-control" />
+                        @if (TempData["err_user_password"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_password"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Nhóm</label>
+                        <select name="group_id" class="form-control">
+                            <option value="0">Chọn nhóm</option>
+                            @{
+                                int? result = null;
+                                if (TempData["group_id"] != null)
+                                {
+                                    if (int.TryParse((string)TempData["group_id"], out int data))
+                                    {
+                                        result = data;
+                                    }
+                                }
+                            }
+                            @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).groups.ToList())
+                            {
+                                <option value="@item.id" @(result != null && result == item.id ? "selected" : "")>@item.name</option>
+                            }
+                        </select>
+                        @if (TempData["err_user_group_id"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_group_id"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Ngày sinh</label>
+                        <div class="input-group date" id="id_4">
+                            <input type="text" name="date_of_birth" value="@(TempData["date_of_birth"] != null ? TempData["date_of_birth"] : "")" placeholder="Ngày sinh..." class="form-control" required="">
+                            <div class="input-group-addon input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                </div>
+                            </div>
+                        </div>
+                        @if (TempData["err_user_date_of_birth"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_date_of_birth"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="gender_male" name="gender" value="Nam" @(TempData["gender"] != null && TempData["gender"].Equals("Nam") ? "checked" : "")>
+                            <label class="custom-control-label" for="gender_male">Nam</label>
+                        </div>
+
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="gender_female" name="gender" value="Nữ" @(TempData["gender"] != null && TempData["gender"].Equals("Nữ") ? "checked" : "")>
+                            <label class="custom-control-label" for="gender_female">Nữ</label>
+                        </div>
+
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="gender_other" name="gender" value="Khác" @(TempData["gender"] != null && TempData["gender"].Equals("Khác") ? "checked" : "")>
+                            <label class="custom-control-label" for="gender_other">Khác</label>
+                        </div>
+                        @if (TempData["err_user_gender"] != null)
+                        {
+                            <span class="text-danger d-block">
+                                @TempData["err_user_gender"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="" class="d-block">Ảnh</label>
+                        <input type="file" name="thumbnail" class="" value="@(TempData["thumbnail"] != null ? TempData["thumbnail"] : "")" />
+                        @if (TempData["err_user_thumbnail"] != null)
+                        {
+                            <span class="text-danger d-block">
+                                @TempData["err_user_thumbnail"]
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Thêm" class="btn btn-primary mr-2">
+    <a href="@Url.Action("Index", "User")" class="btn btn-danger">Hủy</a>
+</form>
+
+@section js{
+    <script src="~/assets/plugins/moment-js/moment.js"></script>
+    <script src="~/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+
+    <script>
+        $('#id_4').datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            "format": "YYYY/MM/DD",
+            icons: {
+                time: "fa-light fa-timer",
+                date: "fa-solid fa-calendar-days",
+                up: "fa-regular fa-chevron-up",
+                down: "fa-regular fa-chevron-down",
+                previous: "fa-regular fa-chevron-left",
+                next: "fa-regular fa-chevron-right",
+                today: "fa-light fa-crosshairs-simple",
+                clear: "fa-light fa-trash-can",
+            },
+        });
+    </script>
+}
+

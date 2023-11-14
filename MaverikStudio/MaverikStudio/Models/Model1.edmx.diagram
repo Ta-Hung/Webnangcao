@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a92eadf20a2d44449efc4ac31abb56fc" Name="Diagram1">
+        <EntityTypeShape EntityType="WebMaverikStudioModel.brand" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.category" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.client" Width="1.5" PointX="7.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.group" Width="1.5" PointX="7.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.order_details" Width="1.5" PointX="12.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.order" Width="1.5" PointX="10" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.product_details" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.product_images" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.product" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.size" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.status" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebMaverikStudioModel.user" Width="1.5" PointX="10" PointY="11.125" IsExpanded="true" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__products__brand___48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__products__catego__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__orders__client_i__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__users__group_id__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__order_det__order__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__orders__status_i__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__product_d__produ__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__product_d__size___5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="WebMaverikStudioModel.FK__product_i__produ__4BAC3F29" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

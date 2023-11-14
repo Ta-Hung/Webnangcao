@@ -1,0 +1,18 @@
+:root {
+    --auth-input-error: #db6c7c;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 100%;
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+}
+
+.input-error {
+    background-color: var(--auth-input-error) !important;
+}
+

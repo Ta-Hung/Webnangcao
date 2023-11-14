@@ -1,0 +1,276 @@
+﻿
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+        <img src="~/assets/plugins/admin-lte-3/dist/img/363365562_868881658095519_5183610078985921017_n.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Maverik Studio</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="@(Session["user_thumbnail"] != null ? Session["user_thumbnail"] : "")" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">@(Session["user_name"] != null ? Session["user_name"] : "")</a>
+            </div>
+        </div>
+
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a href="dashboard/index" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/dashboard/index") ? "active" : "")">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+
+                @*User*@
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/user") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/user") ? "active" : "")">
+                        <i class="nav-icon fa-light fa-user"></i>
+                        <p>
+                            User
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","User")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/user/index") ? "active" : "")">
+                                <i class="fa-light fa-list-dropdown nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Create","User")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/user/create") ? "active" : "")">
+                                <i class="nav-icon fa-light fa-pen-to-square"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @*EndUser*@
+
+                @*Group*@
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/group") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/group") ? "active" : "")">
+                        <i class="nav-icon fa-light fa-users"></i>
+                        <p>
+                            Group
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","Group")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/group/index") ? "active" : "")">
+                                <i class="fa-light fa-list-dropdown nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Create","Group")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/group/create") ? "active" : "")">
+                                <i class="nav-icon fa-light fa-pen-to-square"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @*EndGroup*@
+
+                @*Client*@
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/client") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/client") ? "active" : "")">
+                        <i class="nav-icon fa-light fa-people-simple"></i>
+                        <p>
+                            Client
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","Client")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/client/index") ? "active" : "")">
+                                <i class="fa-light fa-list-dropdown nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Create","Client")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/client/create") ? "active" : "")">
+                                <i class="nav-icon fa-light fa-pen-to-square"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @*EndClient*@
+
+                @*Category*@
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/category") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/category") ? "active" : "")">
+                        <i class="nav-icon fa-sharp fa-light fa-bars-sort"></i>
+                        <p>
+                            Category
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","Category")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/category/index") ? "active" : "")">
+                                <i class="fa-light fa-list-dropdown nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Create","Category")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/category/create") ? "active" : "")">
+                                <i class="nav-icon fa-light fa-pen-to-square"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @*EndCategory*@
+
+                @*Brand*@
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/brand") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/brand") ? "active" : "")">
+                        <i class="nav-icon fa-light fa-parachute-box"></i>
+                        <p>
+                            Brand
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","Brand")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/brand/index") ? "active" : "")">
+                                <i class="fa-light fa-list-dropdown nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Create","Brand")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/brand/create") ? "active" : "")">
+                                <i class="nav-icon fa-light fa-pen-to-square"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @*EndBrand*@
+
+                @*Size*@
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/size") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/size") ? "active" : "")">
+                        <i class="nav-icon fa-light fa-arrow-up-big-small"></i>
+                        <p>
+                            Size
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","Size")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/size/index") ? "active" : "")">
+                                <i class="fa-light fa-list-dropdown nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Create","Size")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/size/create") ? "active" : "")">
+                                <i class="nav-icon fa-light fa-pen-to-square"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @*EndSize*@
+
+                @*Product*@
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/product") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/product") ? "active" : "")">
+                        <i class="nav-icon fa-light fa-shirt"></i>
+                        <p>
+                            Product
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","Product")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/product/index") ? "active" : "")">
+                                <i class="fa-light fa-list-dropdown nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Create","Product")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/product/create") ? "active" : "")">
+                                <i class="nav-icon fa-light fa-pen-to-square"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @*EndProduct*@
+
+                <li class="nav-item button-logout">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa-light fa-right-from-bracket"></i>
+                        <p>
+                            Logout
+                        </p>
+                    </a>
+                    <form action="@Url.Action("Logout", "Auth")" method="post" class="form-logout">
+                        @Html.AntiForgeryToken()
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<script>
+    const buttonLogout = document.querySelector('.button-logout');
+    const formLogout = document.querySelector('.form-logout');
+
+    buttonLogout.addEventListener('click', e => {
+        e.preventDefault();
+        formLogout.submit();
+    })
+</script>

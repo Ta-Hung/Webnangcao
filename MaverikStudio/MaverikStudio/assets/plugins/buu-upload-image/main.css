@@ -1,0 +1,93 @@
+.upload-image__wrapper {
+  border: 3px dashed #333;
+  border-radius: 10px;
+  padding: 0.5rem 0.5rem 0 0.5rem;
+}
+
+.dark-mode .upload-image__wrapper {
+  border: 3px dashed #ebecec;
+}
+
+.upload-image__item {
+  padding-bottom: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.upload-image__item img {
+  display: none;
+}
+
+.upload-image__item-wrapper {
+  position: relative;
+  padding: 0.25rem;
+  border: 1px solid #6c757d;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.upload-image__destroy {
+  position: absolute;
+  width: 30%;
+  max-width: 60px;
+  height: 30%;
+  max-height: 60px;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+@media (max-width: 1024px) {
+  .upload-image__destroy {
+    opacity: 1;
+  }
+}
+
+.upload-image__destroy::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 70%;
+  height: 15%;
+  border-radius: 4px;
+  background-color: #333;
+}
+
+.upload-image__destroy::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 70%;
+  height: 15%;
+  border-radius: 4px;
+  background-color: #333;
+}
+
+.upload-image__item-wrapper:hover .upload-image__destroy {
+  opacity: 1;
+}
+
+.upload-image__destroy:hover {
+  background-color: #fff;
+}
+
+.upload-image__create {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  transition: opacity 0.15s ease;
+}
+
+.upload-image__create i {
+  font-size: 3rem;
+}

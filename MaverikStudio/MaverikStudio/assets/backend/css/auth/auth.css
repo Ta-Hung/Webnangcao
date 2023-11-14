@@ -1,0 +1,286 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #23242a;
+    flex-direction: column;
+    position: relative;
+}
+
+.box {
+    --auth-input-error: #db6c7c;
+    position: relative;
+    background-color: #1c1c1c;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.box::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, transparent, transparent, #45f3ff, #45f3ff, #45f3ff);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+}
+
+.box::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, transparent, transparent, #45f3ff, #45f3ff, #45f3ff);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+    animation-delay: -3s;
+}
+
+.borderLine {
+    position: absolute;
+    top: 0;
+    inset: 0;
+}
+
+.borderLine::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, transparent, transparent, #ff2770, #ff2770, #ff2770);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+    animation-delay: -1.5s;
+}
+
+.borderLine::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, transparent, transparent, #ff2770, #ff2770, #ff2770);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+    animation-delay: -4.5s;
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.box form {
+    width: 410px;
+    position: relative;
+    margin: 4px;
+    background-color: #222;
+    padding: 50px 40px 60px;
+    border-radius: 8px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.box form h2 {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
+.box form .inputBox {
+    position: relative;
+    width: 100%;
+    margin-top: 35px;
+}
+
+.box form .inputBox input {
+    position: relative;
+    width: 100%;
+    padding: 20px 10px 10px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    color: #23242a;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+    z-index: 10;
+}
+
+.box form .inputBox span {
+    position: absolute;
+    left: 0;
+    padding: 20px 0px 10px;
+    pointer-events: none;
+    color: #8f8f8f;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+}
+
+.box form .inputBox input:valid ~ span,
+.box form .inputBox input:focus ~ span {
+    color: #fff;
+    font-size: 0.85em;
+    transform: translateY(-34px);
+}
+
+.box form .inputBox i {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.box form .inputBox input:valid ~ i,
+.box form .inputBox input:focus ~ i {
+    height: 39px;
+}
+
+.box form .links {
+    display: flex;
+    justify-content: end;
+    margin-top: 8px;
+    line-height: 36px;
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #fff;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+}
+
+.box form .links .remember {
+    display: inherit;
+}
+
+.box form .links .remember label{
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.box form .links .remember input{
+    cursor: pointer;
+}
+
+.box form .links a{
+    text-decoration: none;
+    color: #fff
+}
+
+.box form .links a:hover{
+    color: #fff;
+}
+
+.box form button[type="submit"] {
+    border: none;
+    outline: none;
+    padding: 11px 30px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.box form button[type="submit"]:active {
+    opacity: 0.8;
+}
+
+.icon-input-error {
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 10px;
+    right: 6px;
+    background-color: transparent;
+    border: 1.5px solid var(--auth-input-error);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    color: var(--auth-input-error);
+    opacity: 1;
+    transition: opacity 0.3s linear;
+    line-height: 18px;
+}
+
+.box form .inputBox input:valid ~ .icon-input-error,
+.box form .inputBox input:focus ~ .icon-input-error {
+    opacity: 0;
+}
+
+.error-message {
+    color: var(--auth-input-error);
+    margin-top: 8px;
+    font-size: 0.85rem;
+    display: block;
+}
+
+footer {
+    position: absolute;
+    z-index: 3;
+    bottom: 18px;
+    margin-top: 20px;
+    color: #fff;
+}
+
+.auth-button {
+    display: flex;
+}
+
+.auth-button a {
+    color: #000;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    padding: 11px 30px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.auth-button a:active {
+    opacity: 0.8;
+}

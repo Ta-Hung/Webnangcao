@@ -1,0 +1,176 @@
+﻿
+@model MaverikStudio.Models.product
+@{
+    Layout = "~/Views/Shared/backend.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <style>
+        .label-for-form label {
+            font-weight: 500 !important;
+        }
+    </style>
+}
+<form action="@Url.Action("HandleUpdate", "Product", new {id = Model.id})" method="POST" class="form-group label-for-form" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Tên sản phẩm</label>
+                        <input type="text" name="name" value="@(TempData["name"] != null ? TempData["name"] : Model.name)" placeholder="Tên..." class="form-control" />
+                        @if (TempData["err_product_name"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_product_name"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Thương hiệu</label>
+                        <select name="brand_id" class="form-control">
+                            <option value="0">Chọn thương hiệu</option>
+                            @{
+                                int? result = null;
+                                if (TempData["brand_id"] != null)
+                                {
+                                    if (int.TryParse((string)TempData["brand_id"], out int data))
+                                    {
+                                        result = data;
+                                    }
+                                }
+
+                                if (result == null)
+                                {
+                                    result = Model.brand_id;
+                                }
+                            }
+                            @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).groups.ToList())
+                            {
+                                <option value="@item.id" @(result != null && result == item.id ? "selected" : "")>@item.name</option>
+                            }
+                        </select>
+                        @if (TempData["err_product_brand_id"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_product_brand_id"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Chuyên mục</label>
+                        <select name="category_id" class="form-control">
+                            <option value="0">Chọn chuyên mục</option>
+                            @{
+                                int? result1 = null;
+                                if (TempData["category_id"] != null)
+                                {
+                                    if (int.TryParse((string)TempData["category_id"], out int data))
+                                    {
+                                        result1 = data;
+                                    }
+                                }
+
+                                if (result1 == null)
+                                {
+                                    result1 = Model.category_id;
+                                }
+                            }
+                            @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).categories.ToList())
+                            {
+                                <option value="@item.id" @(result1 != null && result1 == item.id ? "selected" : "")>@item.name</option>
+                            }
+                        </select>
+                        @if (TempData["err_product_category_id"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_product_category_id"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="img-thumbnail"><div style="background-image: url('@Model.product_images.FirstOrDefault(m => m.product_id == Model.id).image'); padding-bottom: 100%; background-repeat: no-repeat; background-size: cover; background-position: center;"></div></div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="" class="d-block">Ảnh</label>
+                        <input type="file" name="thumbnail" class="" value="@(TempData["thumbnail"] != null ? TempData["thumbnail"] : @Model.product_images.FirstOrDefault(m => m.product_id == Model.id).image)" />
+                        @if (TempData["err_product_thumbnail"] != null)
+                        {
+                            <span class="text-danger d-block">
+                                @TempData["err_product_thumbnail"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="">Mô tả</label>
+                        <textarea name="description" id="ckeditor1" class="ckeditor">@(TempData["description"] != null ? TempData["description"] : Model.description)</textarea>
+                        @if (TempData["err_product_description"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_product_description"]
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Sửa" class="btn btn-primary mr-2">
+    <a href="@Url.Action("Index", "Product")" class="btn btn-danger">Hủy</a>
+</form>
+
+@section js{
+    <script src="~/assets/plugins/moment-js/moment.js"></script>
+    <script src="~/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="~/assets/plugins/sweet-alert/sweet-alert.js"></script>
+    <script src="~/assets/plugins/ckeditor/ckeditor.js"></script>
+
+    <script>
+        $('#id_4').datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            "format": "YYYY/MM/DD",
+            icons: {
+                time: "fa-light fa-timer",
+                date: "fa-solid fa-calendar-days",
+                up: "fa-regular fa-chevron-up",
+                down: "fa-regular fa-chevron-down",
+                previous: "fa-regular fa-chevron-left",
+                next: "fa-regular fa-chevron-right",
+                today: "fa-light fa-crosshairs-simple",
+                clear: "fa-light fa-trash-can",
+            },
+        });
+    </script>
+
+    @if (TempData["msg"] != null)
+    {
+        <script>
+        Swal.fire(
+            "@TempData["msg"]",
+            "",
+            "success"
+        );
+        </script>
+    }
+}
+
+
+

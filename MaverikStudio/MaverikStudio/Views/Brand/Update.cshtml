@@ -1,0 +1,123 @@
+﻿
+@model MaverikStudio.Models.brand
+@{
+    Layout = "~/Views/Shared/backend.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <style>
+        .label-for-form label {
+            font-weight: 500 !important;
+        }
+    </style>
+}
+<form action="@Url.Action("HandleUpdate", "Brand", new {id = Model.id})" method="POST" class="form-group label-for-form" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Tên thương hiệu</label>
+                        <input type="text" name="name" value="@(TempData["name"] != null ? TempData["name"] : Model.name)" placeholder="Tên..." class="form-control" />
+                        @if (TempData["err_brand_name"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_brand_name"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Địa chỉ</label>
+                        <input type="text" name="address" value="@(TempData["address"] != null ? TempData["address"] : Model.address)" placeholder="Địa chỉ..." class="form-control" />
+                        @if (TempData["err_brand_address"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_brand_address"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Số điện thoại</label>
+                        <input type="text" name="phone_number" value="@(TempData["phone_number"] != null ? TempData["phone_number"] : Model.phone_number)" placeholder="Số điện thoại..." class="form-control" />
+                        @if (TempData["err_brand_phone_number"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_brand_phone_number"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="text" name="email" value="@(TempData["email"] != null ? TempData["email"] : Model.email)" placeholder="Email..." class="form-control" />
+                        @if (TempData["err_brand_email"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_brand_email"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="">Mô tả</label>
+                        <textarea name="description" id="ckeditor1" class="ckeditor">@(TempData["description"] != null ? TempData["description"] : Model.description)</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Sửa" class="btn btn-primary mr-2">
+    <a href="@Url.Action("Index", "Brand")" class="btn btn-danger">Hủy</a>
+</form>
+
+@section js{
+    <script src="~/assets/plugins/moment-js/moment.js"></script>
+    <script src="~/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="~/assets/plugins/sweet-alert/sweet-alert.js"></script>
+    <script src="~/assets/plugins/ckeditor/ckeditor.js"></script>
+    <script>
+        $('#id_4').datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            "format": "YYYY/MM/DD",
+            icons: {
+                time: "fa-light fa-timer",
+                date: "fa-solid fa-calendar-days",
+                up: "fa-regular fa-chevron-up",
+                down: "fa-regular fa-chevron-down",
+                previous: "fa-regular fa-chevron-left",
+                next: "fa-regular fa-chevron-right",
+                today: "fa-light fa-crosshairs-simple",
+                clear: "fa-light fa-trash-can",
+            },
+        });
+    </script>
+
+    @if (TempData["msg"] != null)
+    {
+        <script>
+        Swal.fire(
+            "@TempData["msg"]",
+            "",
+            "success"
+        );
+        </script>
+    }
+}
+
+
+

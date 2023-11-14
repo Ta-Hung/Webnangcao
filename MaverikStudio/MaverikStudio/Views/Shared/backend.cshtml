@@ -1,0 +1,93 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.title</title>
+
+    <link rel="stylesheet" href="~/assets/fonts/font-nunito.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/assets/icon/fontawesome-pro-642/css/icon.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/assets/plugins/admin-lte-3/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/assets/plugins/admin-lte-3/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+    @RenderSection("css", false);
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed dark-mode layout-navbar-fixed">
+    <div class="wrapper">
+        @RenderSection("see_detail", false);
+
+        <!-- Navbar -->
+        @Html.Partial("~/Views/Shared/parts/backend/header.cshtml")
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        @Html.Partial("~/Views/Shared/parts/backend/sidebar.cshtml")
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">@ViewBag.title</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+
+                                <li class="breadcrumb-item active">@ViewBag.title</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+
+            <a id="back-to-top" style="padding: 0.5rem 0.75rem; border-radius: 50%; background: #fff; border: unset; box-shadow: 0 0 4px 0px rgba(0,0,0,.5);" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+                <i style="color: #333" class="fa-solid fa-chevrons-up"></i>
+            </a>
+        </div>
+        <!-- /.content-wrapper -->
+
+        @Html.Partial("~/Views/Shared/parts/backend/footer.cshtml")
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-light">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="~/assets/plugins/admin-lte-3/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/assets/plugins/admin-lte-3/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+  $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/assets/plugins/admin-lte-3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/assets/plugins/admin-lte-3/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/assets/plugins/admin-lte-3/dist/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/assets/plugins/admin-lte-3/dist/js/demo.js"></script>
+
+    @RenderSection("js", false)
+</body>
+</html>
