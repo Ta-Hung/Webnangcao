@@ -97,9 +97,6 @@
     <Property Name="size_id" Type="int" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
     <Property Name="quantity_ready" Type="int" Nullable="false" />
-    <Property Name="price" Type="float" Nullable="false" />
-    <Property Name="price_origin" Type="float" Nullable="false" />
-    <Property Name="sale" Type="float" Nullable="false" />
     <Property Name="created_at" Type="datetime" />
     <Property Name="updated_at" Type="datetime" />
   </EntityType>
@@ -122,6 +119,9 @@
     <Property Name="brand_id" Type="int" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="price" Type="float" Nullable="false" />
+    <Property Name="price_origin" Type="float" Nullable="false" />
+    <Property Name="sale" Type="float" Nullable="false" />
     <Property Name="created_at" Type="datetime" />
     <Property Name="updated_at" Type="datetime" />
     <Property Name="deleted_at" Type="datetime" />

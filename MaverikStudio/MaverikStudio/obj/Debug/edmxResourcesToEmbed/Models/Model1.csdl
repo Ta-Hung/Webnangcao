@@ -105,9 +105,6 @@
     <Property Name="size_id" Type="Int32" Nullable="false" />
     <Property Name="quantity" Type="Int32" Nullable="false" />
     <Property Name="quantity_ready" Type="Int32" Nullable="false" />
-    <Property Name="price" Type="Double" Nullable="false" />
-    <Property Name="price_origin" Type="Double" Nullable="false" />
-    <Property Name="sale" Type="Double" Nullable="false" />
     <Property Name="created_at" Type="DateTime" Precision="3" />
     <Property Name="updated_at" Type="DateTime" Precision="3" />
     <NavigationProperty Name="product" Relationship="Self.FK__product_d__produ__5070F446" FromRole="product_details" ToRole="products" />
@@ -133,6 +130,9 @@
     <Property Name="brand_id" Type="Int32" Nullable="false" />
     <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="price" Type="Double" Nullable="false" />
+    <Property Name="price_origin" Type="Double" Nullable="false" />
+    <Property Name="sale" Type="Double" Nullable="false" />
     <Property Name="created_at" Type="DateTime" Precision="3" />
     <Property Name="updated_at" Type="DateTime" Precision="3" />
     <Property Name="deleted_at" Type="DateTime" Precision="3" />

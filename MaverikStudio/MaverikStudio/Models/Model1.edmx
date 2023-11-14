@@ -102,9 +102,6 @@
           <Property Name="size_id" Type="int" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="quantity_ready" Type="int" Nullable="false" />
-          <Property Name="price" Type="float" Nullable="false" />
-          <Property Name="price_origin" Type="float" Nullable="false" />
-          <Property Name="sale" Type="float" Nullable="false" />
           <Property Name="created_at" Type="datetime" />
           <Property Name="updated_at" Type="datetime" />
         </EntityType>
@@ -127,6 +124,9 @@
           <Property Name="brand_id" Type="int" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="price_origin" Type="float" Nullable="false" />
+          <Property Name="sale" Type="float" Nullable="false" />
           <Property Name="created_at" Type="datetime" />
           <Property Name="updated_at" Type="datetime" />
           <Property Name="deleted_at" Type="datetime" />
@@ -457,9 +457,6 @@
           <Property Name="size_id" Type="Int32" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="quantity_ready" Type="Int32" Nullable="false" />
-          <Property Name="price" Type="Double" Nullable="false" />
-          <Property Name="price_origin" Type="Double" Nullable="false" />
-          <Property Name="sale" Type="Double" Nullable="false" />
           <Property Name="created_at" Type="DateTime" Precision="3" />
           <Property Name="updated_at" Type="DateTime" Precision="3" />
           <NavigationProperty Name="product" Relationship="Self.FK__product_d__produ__5070F446" FromRole="product_details" ToRole="products" />
@@ -485,6 +482,9 @@
           <Property Name="brand_id" Type="Int32" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="price_origin" Type="Double" Nullable="false" />
+          <Property Name="sale" Type="Double" Nullable="false" />
           <Property Name="created_at" Type="DateTime" Precision="3" />
           <Property Name="updated_at" Type="DateTime" Precision="3" />
           <Property Name="deleted_at" Type="DateTime" Precision="3" />
@@ -817,9 +817,6 @@
                 <ScalarProperty Name="size_id" ColumnName="size_id" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="quantity_ready" ColumnName="quantity_ready" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="price_origin" ColumnName="price_origin" />
-                <ScalarProperty Name="sale" ColumnName="sale" />
                 <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />
               </MappingFragment>
@@ -844,6 +841,9 @@
                 <ScalarProperty Name="brand_id" ColumnName="brand_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="price_origin" ColumnName="price_origin" />
+                <ScalarProperty Name="sale" ColumnName="sale" />
                 <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="deleted_at" ColumnName="deleted_at" />

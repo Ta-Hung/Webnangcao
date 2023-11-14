@@ -26,6 +26,9 @@ namespace MaverikStudio.Models
         public int brand_id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
+        public double price { get; set; }
+        public double price_origin { get; set; }
+        public double sale { get; set; }
         public Nullable<System.DateTime> created_at { get; set; }
         public Nullable<System.DateTime> updated_at { get; set; }
         public Nullable<System.DateTime> deleted_at { get; set; }

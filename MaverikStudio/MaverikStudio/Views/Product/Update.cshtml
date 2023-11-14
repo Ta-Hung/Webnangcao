@@ -32,6 +32,45 @@
 
                 <div class="col-6">
                     <div class="form-group">
+                        <label for="">Giá bán</label>
+                        <input type="text" name="price" value="@(TempData["price"] != null ? TempData["price"] : Model.price)" placeholder="Giá bán..." class="form-control" />
+                        @if (TempData["err_product_price"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_product_price"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Giá gốc</label>
+                        <input type="text" name="price_origin" value="@(TempData["price_origin"] != null ? TempData["price_origin"] : Model.price_origin)" placeholder="Giá gốc..." class="form-control" />
+                        @if (TempData["err_product_price_origin"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_product_price_origin"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Giảm giá</label>
+                        <input type="text" name="sale" value="@(TempData["sale"] != null ? TempData["sale"] : Model.sale)" placeholder="Giảm giá..." class="form-control" />
+                        @if (TempData["err_product_sale"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_product_sale"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
                         <label for="">Thương hiệu</label>
                         <select name="brand_id" class="form-control">
                             <option value="0">Chọn thương hiệu</option>

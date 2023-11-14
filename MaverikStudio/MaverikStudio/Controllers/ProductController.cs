@@ -43,14 +43,14 @@ namespace MaverikStudio.Controllers
 
                 if (page <= 0) page = 1;
 
-                int countPage = 1;
+                int countPage = 10;
 
                 if (Request.QueryString["count_page"] != null)
                 {
                     int.TryParse(Request.QueryString["count_page"], out countPage);
                 }
 
-                if (countPage < 0) countPage = 1;
+                if (countPage < 0) countPage = 10;
 
                 TempData["product_search"] = search;
                 TempData["product_filter_brand"] = filter_brand;
@@ -86,6 +86,9 @@ namespace MaverikStudio.Controllers
                 u.brand_id,
                 u.category_id,
                 u.description,
+                u.price,
+                u.price_origin,
+                u.sale,
                 brand = u.brand.name,
                 category = u.category.name,
                 created_at = u.created_at,
@@ -99,6 +102,9 @@ namespace MaverikStudio.Controllers
                 brand_id = product.brand_id,
                 category_id = product.category_id,
                 description = product.description,
+                price = product.price,
+                price_origin = product.price_origin,
+                sale = product.sale,
                 brand = product.brand,
                 category = product.category,
                 created_at = string.Format("{0:dd-MM-yyyy HH:mm:ss}", product.created_at),
@@ -172,6 +178,9 @@ namespace MaverikStudio.Controllers
                     product.brand_id = int.Parse(Request.Form["brand_id"]);
                     product.category_id = int.Parse(Request.Form["category_id"]);
                     product.description = Request.Form["description"];
+                    product.price = double.Parse(Request.Form["price"]);
+                    product.price_origin = double.Parse(Request.Form["price_origin"]);
+                    product.sale = double.Parse(Request.Form["sale"]);
                     product.updated_at = DateTime.Now;
                     db.SaveChanges();
                     TempData["msg"] = "Sửa thành công";
@@ -182,6 +191,9 @@ namespace MaverikStudio.Controllers
                 TempData["brand_id"] = Request.Form["brand_id"];
                 TempData["category_id"] = Request.Form["category_id"];
                 TempData["description"] = Request.Form["description"];
+                TempData["price"] = Request.Form["price"];
+                TempData["price_origin"] = Request.Form["price_origin"];
+                TempData["sale"] = Request.Form["sale"];
                 return RedirectToAction("Update", "Product", new { id = id });
             }
             return RedirectToAction("Login", "Auth");
@@ -217,6 +229,9 @@ namespace MaverikStudio.Controllers
                         product.brand_id = int.Parse(Request.Form["brand_id"]);
                         product.category_id = int.Parse(Request.Form["category_id"]);
                         product.description = Request.Form["description"];
+                        product.price = double.Parse(Request.Form["price"]);
+                        product.price_origin = double.Parse(Request.Form["price_origin"]);
+                        product.sale = double.Parse(Request.Form["sale"]);
                         product.created_at = DateTime.Now;
                         product.updated_at = DateTime.Now;
                         db.products.Add(product);
@@ -245,6 +260,9 @@ namespace MaverikStudio.Controllers
                 TempData["brand_id"] = Request.Form["brand_id"];
                 TempData["category_id"] = Request.Form["category_id"];
                 TempData["description"] = Request.Form["description"];
+                TempData["price"] = Request.Form["price"];
+                TempData["price_origin"] = Request.Form["price_origin"];
+                TempData["sale"] = Request.Form["sale"];
                 return RedirectToAction("Create");
             }
             return RedirectToAction("Login", "Auth");
@@ -318,6 +336,46 @@ namespace MaverikStudio.Controllers
                     check = false;
                 }
             }
+
+            if (Request.Form["price"] == "")
+            {
+                TempData["err_user_price"] = "Giá bán không được để trống";
+                check = false;
+            }
+            else if (!double.TryParse(Request.Form["price"], out double result))
+            {
+                TempData["err_user_price"] = "Giá bán phải là số thực";
+                check = false;
+            }
+
+            if (Request.Form["price_origin"] == "")
+            {
+                TempData["err_user_price_origin"] = "Giá gốc không được để trống";
+                check = false;
+            }
+            else if (!double.TryParse(Request.Form["price_origin"], out double result))
+            {
+                TempData["err_user_price_origin"] = "Giá gốc phải là số thực";
+                check = false;
+            }
+
+            double sale = 0;
+            if (Request.Form["sale"] == "")
+            {
+                TempData["err_user_sale"] = "Giảm giá không được để trống";
+                check = false;
+            }
+            else if (!double.TryParse(Request.Form["sale"], out sale))
+            {
+                TempData["err_user_sale"] = "Giảm giá phải là số thực";
+                check = false;
+            }
+            else if(sale < 0 || sale > 100)
+            {
+                TempData["err_user_sale"] = "Giảm giá phải lớn hơn hoặc bằng 0 và nhỏ hơn hoặc bằng 100";
+                check = false;
+            }
+
             return check;
         }
     }

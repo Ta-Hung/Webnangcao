@@ -11,12 +11,27 @@
 <div class="form-group">
     <form action="@Url.Action("Index", "Product")" method="get" id="list_product">
         <div class="row">
-            <div class="col-5">
+            <div class="col-1">
+                <div class="form-group">
+                    <label>Số dòng</label>
+                    <select name="count_page" class="form-control">
+                        @{
+                            int[] arrCountPage = { 10, 25, 50 };
+                        }
+                        @foreach (var item in arrCountPage)
+                        {
+                            <option value="@item" @((int)TempData["product_count_page"] == item ? "selected" : "")>@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-4">
                 <label for="">Tên sản phẩm</label>
                 <input type="text" name="search" placeholder="Tên..." class="form-control" value="@(TempData["product_search"] != null ? TempData["product_search"] : "" )" />
             </div>
 
-            <div class="col-5">
+            <div class="col-3">
                 <div class="form-group">
                     <label for="">Thương hiệu</label>
                     <select name="filter_brand" class="form-control">
@@ -29,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="col-5">
+            <div class="col-3">
                 <div class="form-group">
                     <label for="">Chuyên mục</label>
                     <select name="filter_category" class="form-control">
@@ -42,23 +57,9 @@
                 </div>
             </div>
 
-            <div class="col-2">
-                <div class="form-group">
-                    <input type="submit" value="Lọc" class="btn btn-primary" style="margin-top: 32px;" />
-                </div>
-            </div>
             <div class="col-1">
                 <div class="form-group">
-                    <label>Số dòng</label>
-                    <select name="count_page" class="form-control">
-                        @{
-                            int[] arrCountPage = { 1, 2, 10, 25, 50 };
-                        }
-                        @foreach (var item in arrCountPage)
-                        {
-                            <option value="@item" @((int)TempData["product_count_page"] == item ? "selected" : "")>@item</option>
-                        }
-                    </select>
+                    <input type="submit" value="Lọc" class="btn btn-primary" style="margin-top: 32px;" />
                 </div>
             </div>
         </div>
@@ -71,6 +72,8 @@
                         <th>Tên</th>
                         <th>Thương hiệu</th>
                         <th>Chuyên mục</th>
+                        <th>Giá bán</th>
+                        <th>Sale</th>
                         <th>Thời gian tạo</th>
                         <th></th>
                     </tr>
@@ -84,6 +87,8 @@
                             <td><a href="#" data-id="@item.id">@item.name</a></td>
                             <td>@item.brand.name</td>
                             <td>@item.category.name</td>
+                            <td>@string.Format("{0:#,##0}", item.price)</td>
+                            <td>@(item.sale.ToString() + "%")</td>
                             <td>@item.created_at</td>
                             <td>
                                 <a title="Chỉnh sửa" href="@Url.Action("Update", "Product", new { id = item.id})"><i class="fa-light fa-pencil"></i></a>
@@ -99,6 +104,8 @@
                         <th>Tên</th>
                         <th>Thương hiệu</th>
                         <th>Chuyên mục</th>
+                        <th>Giá bán</th>
+                        <th>Sale</th>
                         <th>Thời gian tạo</th>
                         <th></th>
                     </tr>

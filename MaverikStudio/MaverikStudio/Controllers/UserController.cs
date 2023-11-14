@@ -36,14 +36,14 @@ namespace MaverikStudio.Controllers
 
                 if (page <= 0) page = 1;
 
-                int countPage = 1;
+                int countPage = 10;
 
                 if (Request.QueryString["count_page"] != null)
                 {
                     int.TryParse(Request.QueryString["count_page"], out countPage);
                 }
 
-                if (countPage < 0) countPage = 1;
+                if (countPage < 0) countPage = 10;
 
                 TempData["user_search"] = search;
                 TempData["user_filter_group"] = filter_group;

@@ -37,7 +37,7 @@
                 <!-- Add icons to the links using the .nav-icon class
     with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="dashboard/index" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/dashboard/index") ? "active" : "")">
+                    <a href="@Url.Action("Index", "DashBoard")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/dashboard/index") ? "active" : "")">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -56,7 +56,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="@Url.Action("Index","User")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/user/index") ? "active" : "")">
+                            <a href="@Url.Action("Index","User")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/user/index") ? "active" : "")">
                                 <i class="fa-light fa-list-dropdown nav-icon"></i>
                                 <p>List</p>
                             </a>
@@ -65,7 +65,7 @@
 
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Create","User")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/user/create") ? "active" : "")">
+                            <a href="@Url.Action("Create","User")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/user/create") ? "active" : "")">
                                 <i class="nav-icon fa-light fa-pen-to-square"></i>
                                 <p>Create</p>
                             </a>
@@ -85,7 +85,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="@Url.Action("Index","Group")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/group/index") ? "active" : "")">
+                            <a href="@Url.Action("Index","Group")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/group/index") ? "active" : "")">
                                 <i class="fa-light fa-list-dropdown nav-icon"></i>
                                 <p>List</p>
                             </a>
@@ -94,7 +94,7 @@
 
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Create","Group")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/group/create") ? "active" : "")">
+                            <a href="@Url.Action("Create","Group")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/group/create") ? "active" : "")">
                                 <i class="nav-icon fa-light fa-pen-to-square"></i>
                                 <p>Create</p>
                             </a>
@@ -114,7 +114,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="@Url.Action("Index","Client")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/client/index") ? "active" : "")">
+                            <a href="@Url.Action("Index","Client")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/client/index") ? "active" : "")">
                                 <i class="fa-light fa-list-dropdown nav-icon"></i>
                                 <p>List</p>
                             </a>
@@ -123,7 +123,7 @@
 
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Create","Client")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/client/create") ? "active" : "")">
+                            <a href="@Url.Action("Create","Client")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/client/create") ? "active" : "")">
                                 <i class="nav-icon fa-light fa-pen-to-square"></i>
                                 <p>Create</p>
                             </a>
@@ -143,7 +143,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="@Url.Action("Index","Category")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/category/index") ? "active" : "")">
+                            <a href="@Url.Action("Index","Category")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/category/index") ? "active" : "")">
                                 <i class="fa-light fa-list-dropdown nav-icon"></i>
                                 <p>List</p>
                             </a>
@@ -152,7 +152,7 @@
 
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Create","Category")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/category/create") ? "active" : "")">
+                            <a href="@Url.Action("Create","Category")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/category/create") ? "active" : "")">
                                 <i class="nav-icon fa-light fa-pen-to-square"></i>
                                 <p>Create</p>
                             </a>
@@ -172,7 +172,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="@Url.Action("Index","Brand")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/brand/index") ? "active" : "")">
+                            <a href="@Url.Action("Index","Brand")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/brand/index") ? "active" : "")">
                                 <i class="fa-light fa-list-dropdown nav-icon"></i>
                                 <p>List</p>
                             </a>
@@ -181,7 +181,7 @@
 
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Create","Brand")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/brand/create") ? "active" : "")">
+                            <a href="@Url.Action("Create","Brand")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/brand/create") ? "active" : "")">
                                 <i class="nav-icon fa-light fa-pen-to-square"></i>
                                 <p>Create</p>
                             </a>
@@ -201,7 +201,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="@Url.Action("Index","Size")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/size/index") ? "active" : "")">
+                            <a href="@Url.Action("Index","Size")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/size/index") ? "active" : "")">
                                 <i class="fa-light fa-list-dropdown nav-icon"></i>
                                 <p>List</p>
                             </a>
@@ -210,7 +210,7 @@
 
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Create","Size")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/size/create") ? "active" : "")">
+                            <a href="@Url.Action("Create","Size")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/size/create") ? "active" : "")">
                                 <i class="nav-icon fa-light fa-pen-to-square"></i>
                                 <p>Create</p>
                             </a>
@@ -231,14 +231,14 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Index","Product")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/product/index") ? "active" : "")">
+                            <a href="@Url.Action("Index","Product")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/product/index") ? "active" : "")">
                                 <i class="fa-light fa-list-dropdown nav-icon"></i>
                                 <p>List</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Create","Product")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/product/create") ? "active" : "")">
+                            <a href="@Url.Action("Create","Product")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/product/create") ? "active" : "")">
                                 <i class="nav-icon fa-light fa-pen-to-square"></i>
                                 <p>Create</p>
                             </a>

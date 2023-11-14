@@ -18,9 +18,6 @@ namespace MaverikStudio.Models
         public int size_id { get; set; }
         public int quantity { get; set; }
         public int quantity_ready { get; set; }
-        public double price { get; set; }
-        public double price_origin { get; set; }
-        public double sale { get; set; }
         public Nullable<System.DateTime> created_at { get; set; }
         public Nullable<System.DateTime> updated_at { get; set; }
     
