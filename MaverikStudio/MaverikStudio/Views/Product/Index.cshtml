@@ -84,7 +84,7 @@
                         <tr>
                             <td>@item.id</td>
                             <td><div style="width: 100%; padding-bottom: 100%; background-repeat: no-repeat; background-position: center; background-size: cover; background-image: url('@item.product_images.First(m => m.product_id == item.id).image')"></div></td>
-                            <td><a href="#" data-id="@item.id">@item.name</a></td>
+                            <td><a href="@Url.Action("Detail", "Product", new {id = item.id})" data-id="@item.id">@item.name</a></td>
                             <td>@item.brand.name</td>
                             <td>@item.category.name</td>
                             <td>@string.Format("{0:#,##0}", item.price)</td>
@@ -129,12 +129,6 @@
 </div>
 
 @Html.Partial("~/Views/Shared/parts/backend/form-delete.cshtml")
-
-@section see_detail{
-    <div class="detail__container">
-
-    </div>
-}
 
 @section css{
     <link rel="stylesheet" href="~/assets/plugins/datatable/datatable-bs4.css">
@@ -266,16 +260,10 @@
 
         $(function() {
             let formDelete = $('#buu-form-delete');
-            let viewDetail = $('.detail__container');
-            viewDetail.click(function() {
-                viewDetail.css('background', 'transparent');
-                $('.detail__wrapper').animate({ opacity: 0, height: 0, width: 0}, 200);
-                viewDetail.delay(200).hide(0);
-            });
 
             $('#table-product').click(function(e) {
                 let btnDelete = e.target.closest('.buu-action-delete');
-                let btnSee = e.target;
+                
                 if(btnDelete) {
                     e.preventDefault();
                     Swal.fire({
@@ -293,47 +281,6 @@
                             formDelete.submit();
                         }
                     })
-                } else if(btnSee.hasAttribute('data-id')) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: '@Url.Action("SeeDetail", "Product")' + "/" + btnSee.getAttribute('data-id'),
-                        method: 'GET',
-                        success: function(response) {
-                            viewDetail.html(`
-                                <div class="detail__wrapper p-4">
-                                    <i class="fa-regular fa-xmark"></i>
-                                    <div class="row">
-                                        <h3 class="detail__title col-12 text-center font-weight-bold mb-4">Chi tiết thương hiệu</h3>
-
-                                        <p class="col-6">Mã: ${response.id}</p>
-                                        <p class="col-6">Tên: ${response.name}</p>
-                                        <p class="col-6">Thương hiệu: ${response.brand}</p>
-                                        <p class="col-6">Chuyên mục: ${response.category}</p>
-                                        <p class="col-6">Thời gian tạo: ${response.created_at}</p>
-                                        <p class="col-6">Thời gian cập nhật: ${response.updated_at}</p>
-                                        <p class="col-12">Mô tả:</p>
-                                        <div class="col-12 img-thumbnail overflow-auto">${response.description}</div>
-                                    </div>
-                                </div>
-                            `);
-
-                            $('.detail__wrapper i').click(function() {
-                                e.stopPropagation();
-                                viewDetail.css('background', 'transparent');
-                                $('.detail__wrapper').animate({ opacity: 0, height: 0, width: 0}, 200);
-                                viewDetail.delay(200).hide(0);
-                            });
-
-                            $('.detail__wrapper').click(function(e) {
-                                e.stopPropagation();
-                            });
-
-                            viewDetail.css('background', 'rgba(0,0,0,.4)').show();
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Lỗi khi gửi yêu cầu AJAX:', status, error);
-                        }
-                    });
                 }
             });
         })

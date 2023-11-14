@@ -76,52 +76,13 @@ namespace MaverikStudio.Controllers
         }
 
         [HttpGet]
-        public ActionResult SeeDetail(int id)
-        {
-
-            var product = db.products.AsNoTracking().Select(u => new
-            {
-                u.id,
-                u.name,
-                u.brand_id,
-                u.category_id,
-                u.description,
-                u.price,
-                u.price_origin,
-                u.sale,
-                brand = u.brand.name,
-                category = u.category.name,
-                created_at = u.created_at,
-                updated_at = u.updated_at
-            }).FirstOrDefault(u => u.id == id);
-
-            var productData = new
-            {
-                id = product.id,
-                name = product.name,
-                brand_id = product.brand_id,
-                category_id = product.category_id,
-                description = product.description,
-                price = product.price,
-                price_origin = product.price_origin,
-                sale = product.sale,
-                brand = product.brand,
-                category = product.category,
-                created_at = string.Format("{0:dd-MM-yyyy HH:mm:ss}", product.created_at),
-                updated_at = string.Format("{0:dd-MM-yyyy HH:mm:ss}", product.updated_at)
-            };
-
-            return Json(productData, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
         public ActionResult Update(int id)
         {
             if (Session["user_id"] != null)
             {
                 ViewBag.title = "Update product";
 
-                var product = db.products.First(u => u.id == id);
+                var product = db.products.FirstOrDefault(u => u.id == id);
 
                 if (product == null)
                 {
@@ -140,7 +101,7 @@ namespace MaverikStudio.Controllers
         {
             if (Session["user_id"] != null)
             {
-                var product = db.products.First(u => u.id == id);
+                var product = db.products.FirstOrDefault(u => u.id == id);
                 if (product == null)
                 {
                     return RedirectToAction("Index");
@@ -373,6 +334,218 @@ namespace MaverikStudio.Controllers
             else if(sale < 0 || sale > 100)
             {
                 TempData["err_user_sale"] = "Giảm giá phải lớn hơn hoặc bằng 0 và nhỏ hơn hoặc bằng 100";
+                check = false;
+            }
+
+            return check;
+        }
+
+        [HttpGet]
+        public ActionResult Detail(int id)
+        {
+            if (Session["user_id"] != null)
+            {
+                ViewBag.title = "Product detail";
+
+                var product = db.products.FirstOrDefault(m => m.id == id);
+                if(product == null)
+                {
+                    return View("Index");
+                }
+                ViewBag.nameProduct = product.name;
+                ViewBag.idProduct = product.id;
+
+                int page = 1;
+
+                if (Request.QueryString["page"] != null)
+                {
+                    int.TryParse(Request.QueryString["page"], out page);
+                }
+
+                if (page <= 0) page = 1;
+
+                int countPage = 10;
+
+                if (Request.QueryString["count_page"] != null)
+                {
+                    int.TryParse(Request.QueryString["count_page"], out countPage);
+                }
+
+                if (countPage < 0) countPage = 10;
+
+                var product_details = db.product_details
+                .Where(m => m.product_id == id)
+                .OrderByDescending(u => u.created_at)
+                .Skip((page - 1) * countPage)
+                .Take(countPage)
+                .ToList();
+
+                int totalPage = (int)Math.Ceiling((double)db.product_details.Where(m => m.product_id == id).ToList().Count / countPage);
+
+                TempData["product_page"] = page;
+                TempData["product_count_page"] = countPage;
+                TempData["product_total_page"] = totalPage;
+
+                return View(product_details);
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateDetail(int id)
+        {
+            if (Session["user_id"] != null)
+            {
+                if(ValidateProductDetail())
+                {
+                    if(db.products.Find(id) == null)
+                    {
+                        TempData["err"] = "Sản phẩm không tồn tại";
+                        return RedirectToAction("Detail", "Product", new { id = id });
+                    }
+
+                    int sizeId = int.Parse(Request.Form["size_id"]);
+
+                    product_details productDetail = db.product_details.FirstOrDefault(m => m.product_id == id && m.size_id == sizeId);
+
+                    if (productDetail != null)
+                    {
+                        productDetail.quantity += int.Parse(Request.Form["quantity"]);
+                        productDetail.quantity_ready += int.Parse(Request.Form["quantity"]);
+                        db.SaveChanges();
+
+                        TempData["msg"] = "Thêm thành công";
+                        return RedirectToAction("Detail", "Product", new { id = id });
+                    }
+                    else
+                    {
+                        productDetail = new product_details();
+                        productDetail.product_id = id;
+                        productDetail.size_id = int.Parse(Request.Form["size_id"]);
+                        productDetail.quantity = int.Parse(Request.Form["quantity"]);
+                        productDetail.quantity_ready = int.Parse(Request.Form["quantity"]);
+                        productDetail.created_at = DateTime.Now;
+                        productDetail.updated_at = DateTime.Now;
+
+                        db.product_details.Add(productDetail);
+                        db.SaveChanges();
+
+                        TempData["msg"] = "Thêm thành công";
+                        return RedirectToAction("Detail", "Product", new { id = id });
+                    }
+                }
+
+                TempData["size_id"] = Request.Form["size_id"];
+                TempData["quantity"] = Request.Form["quantity"];
+                return RedirectToAction("Detail", "Product", new {id = id});
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateDetail(int id)
+        {
+            if (Session["user_id"] != null)
+            {
+                if (ValidateProductDetail())
+                {
+                    int sizeId = int.Parse(Request.Form["size_id"]);
+                    product_details productDetail = db.product_details.FirstOrDefault(m => m.product_id == id && m.size_id == sizeId);
+                    if (productDetail == null)
+                    {
+                        TempData["err"] = "Chi tiết sản phẩm không tồn tại";
+                        return RedirectToAction("Detail", "Product", new { id = id });
+                    }
+                    else
+                    {
+                        int quantityProductOrdering = productDetail.quantity - productDetail.quantity_ready;
+                        if(quantityProductOrdering > int.Parse(Request.Form["quantity"]))
+                        {
+                            TempData["err"] = $"Vẫn còn {quantityProductOrdering} chi tiết sản phẩm này khách đang đặt. Không thể cập nhật số lượng nhỏ hơn {quantityProductOrdering}";
+                            return RedirectToAction("Detail", "Product", new { id = id });
+                        }
+                        else
+                        {
+                            productDetail.quantity_ready = int.Parse(Request.Form["quantity"]) - (productDetail.quantity - productDetail.quantity_ready);
+                            productDetail.quantity = int.Parse(Request.Form["quantity"]);
+                            productDetail.updated_at = DateTime.Now;
+                            db.SaveChanges();
+
+                            TempData["msg"] = "Cập nhật thành công";
+                            return RedirectToAction("Detail", "Product", new { id = id });
+                        }
+                    }
+                }
+
+                TempData["size_id"] = Request.Form["size_id"];
+                TempData["quantity"] = Request.Form["quantity"];
+                return RedirectToAction("Detail", "Product", new { id = id });
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteDetail(string product_id, string size_id)
+        {
+            if (Session["user_id"] != null)
+            {
+                int productId;
+                int sizeId;
+                if (int.TryParse(product_id, out productId) && int.TryParse(size_id, out sizeId))
+                {
+                    product_details productDetail = db.product_details.FirstOrDefault(m => m.product_id == productId && m.size_id == sizeId);
+                    if (productDetail == null)
+                    {
+                        TempData["err"] = "Chi tiết sản phẩm không tồn tại";
+                        return RedirectToAction("Detail", "Product", new { id = productId });
+                    }
+                    else if(productDetail.quantity_ready < productDetail.quantity)
+                    {
+                        TempData["err"] = "Chi tiết sản phẩm đang có người đặt không thể xóa";
+                        return RedirectToAction("Detail", "Product", new { id = productId });
+                    }
+
+                    db.product_details.Remove(productDetail);
+                    db.SaveChanges();
+
+                    TempData["msg"] = "Xóa thành công";
+                    return RedirectToAction("Detail", "Product", new { id = productId });
+                }
+
+                return RedirectToAction("Index", "Product");
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+        public bool ValidateProductDetail()
+        {
+            bool check = true;
+
+            int sizeId = 0;
+            int.TryParse(Request.Form["size_id"], out sizeId);
+            if (Request.Form["size_id"] == "" || sizeId <= 0 || db.sizes.Find(sizeId) == null)
+            {
+                TempData["err_product_details_size_id"] = "Size không được để trống";
+                check = false;
+            }
+
+            int quantity = 0;
+            bool checkInt = int.TryParse(Request.Form["quantity"], out quantity);
+            if (Request.Form["quantity"] == "" || !checkInt)
+            {
+                TempData["err_product_details_quantity"] = "Số lượng không được để trống và phải là số nguyên";
+                check = false;
+            }
+            else if(quantity < 0)
+            {
+                TempData["err_product_details_quantity"] = "Số lượng phải là số dương";
                 check = false;
             }
 
