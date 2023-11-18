@@ -108,29 +108,23 @@ namespace MaverikStudio.Controllers
                 }
                 if (Validate(id))
                 {
-                    var fImage = Request.Files["thumbnail"];
+                    string[] filepathArray = Request.Form.GetValues("filepath[]");
 
-                    if (fImage != null && fImage.ContentLength > 0)
+                    var productImage = db.product_images.Where(m => m.product_id == id).ToList();
+                    if (productImage != null)
                     {
-                        var productImage = db.product_images.Where(m => m.product_id == id).ToList();
-                        if (productImage != null)
+                        foreach (var item in productImage)
                         {
-                            foreach (var item in productImage)
-                            {
-                                db.product_images.Remove(item);
-                                db.SaveChanges();
-                            }
+                            db.product_images.Remove(item);
+                            db.SaveChanges();
                         }
+                    }
 
-                        string fileName = Path.GetFileName(fImage.FileName);
-                        string fileExtension = Path.GetExtension(fileName);
-                        string uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-                        string folder = Server.MapPath("~/assets/uploads/" + uniqueFileName);
-                        fImage.SaveAs(folder);
-
+                    foreach(string filepath in filepathArray)
+                    {
                         product_images productImg = new product_images();
                         productImg.product_id = id;
-                        productImg.image = "/assets/uploads/" + uniqueFileName;
+                        productImg.image = filepath;
                         productImg.created_at = DateTime.Now;
                         productImg.updated_at = DateTime.Now;
 
@@ -152,6 +146,7 @@ namespace MaverikStudio.Controllers
                 }
 
                 TempData["name"] = Request.Form["name"];
+                TempData["filepath"] = Request.Form.GetValues("filepath[]");
                 TempData["brand_id"] = Request.Form["brand_id"];
                 TempData["category_id"] = Request.Form["category_id"];
                 TempData["description"] = Request.Form["description"];
@@ -184,43 +179,40 @@ namespace MaverikStudio.Controllers
                 if (Validate())
                 {
                     product product = new product();
-                    product_images productImg = new product_images();
-                    var fImage = Request.Files["thumbnail"];
+                    string[] filepathArray = Request.Form.GetValues("filepath[]");
 
-                    if (fImage != null && fImage.ContentLength > 0)
+                    product.name = Request.Form["name"];
+                    product.brand_id = int.Parse(Request.Form["brand_id"]);
+                    product.category_id = int.Parse(Request.Form["category_id"]);
+                    product.description = Request.Form["description"];
+                    product.price = double.Parse(Request.Form["price"]);
+                    product.price_origin = double.Parse(Request.Form["price_origin"]);
+                    product.sale = double.Parse(Request.Form["sale"]);
+                    product.created_at = DateTime.Now;
+                    product.updated_at = DateTime.Now;
+                    db.products.Add(product);
+                    db.SaveChanges();
+
+                    foreach (string filepath in filepathArray)
                     {
-                        product.name = Request.Form["name"];
-                        product.brand_id = int.Parse(Request.Form["brand_id"]);
-                        product.category_id = int.Parse(Request.Form["category_id"]);
-                        product.description = Request.Form["description"];
-                        product.price = double.Parse(Request.Form["price"]);
-                        product.price_origin = double.Parse(Request.Form["price_origin"]);
-                        product.sale = double.Parse(Request.Form["sale"]);
-                        product.created_at = DateTime.Now;
-                        product.updated_at = DateTime.Now;
-                        db.products.Add(product);
-                        db.SaveChanges();
-
-                        string fileName = Path.GetFileName(fImage.FileName);
-                        string fileExtension = Path.GetExtension(fileName);
-                        string uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-                        string folder = Server.MapPath("~/assets/uploads/" + uniqueFileName);
-                        fImage.SaveAs(folder);
-                        productImg.image = "/assets/uploads/" + uniqueFileName;
+                        product_images productImg = new product_images();
+                        productImg.image = filepath;
                         productImg.product_id = product.id;
                         productImg.created_at = DateTime.Now;
                         productImg.updated_at = DateTime.Now;
 
                         db.product_images.Add(productImg);
                         db.SaveChanges();
-
-                        TempData["msg"] = "Thêm thành công";
                     }
+
+
+                    TempData["msg"] = "Thêm thành công";
 
                     return RedirectToAction("Index");
                 }
 
                 TempData["name"] = Request.Form["name"];
+                TempData["filepath"] = Request.Form.GetValues("filepath[]");
                 TempData["brand_id"] = Request.Form["brand_id"];
                 TempData["category_id"] = Request.Form["category_id"];
                 TempData["description"] = Request.Form["description"];
@@ -284,59 +276,49 @@ namespace MaverikStudio.Controllers
                 TempData["err_product_description"] = "Mô tả sản phẩm không được để trống";
                 check = false;
             }
-            if (Request.Files["thumbnail"].ContentLength == 0 && id == 0)
+            string[] filePathArr = Request.Form.GetValues("filepath[]");
+            if (filePathArr == null)
             {
-                TempData["err_user_thumbnail"] = "Ảnh sản phẩm không được để trống";
+                TempData["err_product_filepath"] = "Ảnh sản phẩm không được để trống";
                 check = false;
-            }
-            else if (Request.Files["thumbnail"] != null && Request.Files["thumbnail"].ContentLength > 0)
-            {
-                string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };
-                string fileExtension = Path.GetExtension(Request.Files["thumbnail"].FileName).ToLower();
-
-                if (!allowedExtensions.Contains(fileExtension))
-                {
-                    TempData["err_user_thumbnail"] = "Ảnh không đúng định dạng";
-                    check = false;
-                }
             }
 
             if (Request.Form["price"] == "")
             {
-                TempData["err_user_price"] = "Giá bán không được để trống";
+                TempData["err_product_price"] = "Giá bán không được để trống";
                 check = false;
             }
             else if (!double.TryParse(Request.Form["price"], out double result))
             {
-                TempData["err_user_price"] = "Giá bán phải là số thực";
+                TempData["err_product_price"] = "Giá bán phải là số thực";
                 check = false;
             }
 
             if (Request.Form["price_origin"] == "")
             {
-                TempData["err_user_price_origin"] = "Giá gốc không được để trống";
+                TempData["err_product_price_origin"] = "Giá gốc không được để trống";
                 check = false;
             }
             else if (!double.TryParse(Request.Form["price_origin"], out double result))
             {
-                TempData["err_user_price_origin"] = "Giá gốc phải là số thực";
+                TempData["err_product_price_origin"] = "Giá gốc phải là số thực";
                 check = false;
             }
 
             double sale = 0;
             if (Request.Form["sale"] == "")
             {
-                TempData["err_user_sale"] = "Giảm giá không được để trống";
+                TempData["err_product_sale"] = "Giảm giá không được để trống";
                 check = false;
             }
             else if (!double.TryParse(Request.Form["sale"], out sale))
             {
-                TempData["err_user_sale"] = "Giảm giá phải là số thực";
+                TempData["err_product_sale"] = "Giảm giá phải là số thực";
                 check = false;
             }
             else if (sale < 0 || sale > 100)
             {
-                TempData["err_user_sale"] = "Giảm giá phải lớn hơn hoặc bằng 0 và nhỏ hơn hoặc bằng 100";
+                TempData["err_product_sale"] = "Giảm giá phải lớn hơn hoặc bằng 0 và nhỏ hơn hoặc bằng 100";
                 check = false;
             }
 

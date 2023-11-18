@@ -247,3 +247,5 @@ D:\C#\Webnangcao\MaverikStudio\MaverikStudio\obj\Debug\MaverikStudio.csproj.Core
 D:\C#\Webnangcao\MaverikStudio\MaverikStudio\obj\Debug\MaverikStudio.csproj.CopyComplete
 D:\C#\Webnangcao\MaverikStudio\MaverikStudio\obj\Debug\MaverikStudio.dll
 D:\C#\Webnangcao\MaverikStudio\MaverikStudio\obj\Debug\MaverikStudio.pdb
+D:\C#\Webnangcao\MaverikStudio\MaverikStudio\bin\CKFinder.dll
+D:\C#\Webnangcao\MaverikStudio\MaverikStudio\bin\CKFinder.pdb
