@@ -133,7 +133,9 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
+    <Compile Include="Controllers\FrontEndController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -5091,6 +5093,19 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Update.cshtml" />
     <Content Include="Views\Product\Detail.cshtml" />
+    <Content Include="Views\Shared\frontend.cshtml" />
+    <Content Include="Views\Shared\parts\frontend\header.cshtml" />
+    <Content Include="Views\Shared\parts\frontend\footer.cshtml" />
+    <Content Include="Views\Shared\parts\frontend\slider.cshtml" />
+    <Content Include="Views\FrontEnd\HomePage.cshtml" />
+    <Content Include="Views\FrontEnd\Collection.cshtml" />
+    <Content Include="Views\FrontEnd\Product.cshtml" />
+    <Content Include="Views\Auth\ClientLogin.cshtml" />
+    <Content Include="Views\Auth\ClientRegister.cshtml" />
+    <Content Include="Views\Client\ClientProfile.cshtml" />
+    <Content Include="Views\FrontEnd\Pay.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

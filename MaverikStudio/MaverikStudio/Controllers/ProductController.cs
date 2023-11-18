@@ -112,11 +112,14 @@ namespace MaverikStudio.Controllers
 
                     if (fImage != null && fImage.ContentLength > 0)
                     {
-                        var productImage = db.product_images.FirstOrDefault(m => m.product_id == id);
+                        var productImage = db.product_images.Where(m => m.product_id == id).ToList();
                         if (productImage != null)
                         {
-                            db.product_images.Remove(productImage);
-                            db.SaveChanges();
+                            foreach (var item in productImage)
+                            {
+                                db.product_images.Remove(item);
+                                db.SaveChanges();
+                            }
                         }
 
                         string fileName = Path.GetFileName(fImage.FileName);
@@ -331,7 +334,7 @@ namespace MaverikStudio.Controllers
                 TempData["err_user_sale"] = "Giảm giá phải là số thực";
                 check = false;
             }
-            else if(sale < 0 || sale > 100)
+            else if (sale < 0 || sale > 100)
             {
                 TempData["err_user_sale"] = "Giảm giá phải lớn hơn hoặc bằng 0 và nhỏ hơn hoặc bằng 100";
                 check = false;
@@ -348,7 +351,7 @@ namespace MaverikStudio.Controllers
                 ViewBag.title = "Product detail";
 
                 var product = db.products.FirstOrDefault(m => m.id == id);
-                if(product == null)
+                if (product == null)
                 {
                     return View("Index");
                 }
@@ -398,9 +401,9 @@ namespace MaverikStudio.Controllers
         {
             if (Session["user_id"] != null)
             {
-                if(ValidateProductDetail())
+                if (ValidateProductDetail())
                 {
-                    if(db.products.Find(id) == null)
+                    if (db.products.Find(id) == null)
                     {
                         TempData["err"] = "Sản phẩm không tồn tại";
                         return RedirectToAction("Detail", "Product", new { id = id });
@@ -439,7 +442,7 @@ namespace MaverikStudio.Controllers
 
                 TempData["size_id"] = Request.Form["size_id"];
                 TempData["quantity"] = Request.Form["quantity"];
-                return RedirectToAction("Detail", "Product", new {id = id});
+                return RedirectToAction("Detail", "Product", new { id = id });
             }
 
             return RedirectToAction("Login", "Auth");
@@ -463,7 +466,7 @@ namespace MaverikStudio.Controllers
                     else
                     {
                         int quantityProductOrdering = productDetail.quantity - productDetail.quantity_ready;
-                        if(quantityProductOrdering > int.Parse(Request.Form["quantity"]))
+                        if (quantityProductOrdering > int.Parse(Request.Form["quantity"]))
                         {
                             TempData["err"] = $"Vẫn còn {quantityProductOrdering} chi tiết sản phẩm này khách đang đặt. Không thể cập nhật số lượng nhỏ hơn {quantityProductOrdering}";
                             return RedirectToAction("Detail", "Product", new { id = id });
@@ -505,7 +508,7 @@ namespace MaverikStudio.Controllers
                         TempData["err"] = "Chi tiết sản phẩm không tồn tại";
                         return RedirectToAction("Detail", "Product", new { id = productId });
                     }
-                    else if(productDetail.quantity_ready < productDetail.quantity)
+                    else if (productDetail.quantity_ready < productDetail.quantity)
                     {
                         TempData["err"] = "Chi tiết sản phẩm đang có người đặt không thể xóa";
                         return RedirectToAction("Detail", "Product", new { id = productId });
@@ -543,7 +546,7 @@ namespace MaverikStudio.Controllers
                 TempData["err_product_details_quantity"] = "Số lượng không được để trống và phải là số nguyên";
                 check = false;
             }
-            else if(quantity < 0)
+            else if (quantity < 0)
             {
                 TempData["err_product_details_quantity"] = "Số lượng phải là số dương";
                 check = false;

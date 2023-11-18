@@ -1,0 +1,208 @@
+﻿<div id="idHeader" class="header">
+    <div class="header__top">
+        <a href="@Url.Action("HomePage", "FrontEnd")">
+            <span>NEW COLLECTION COMING SOON</span>
+        </a>
+    </div>
+    <div class="grid wide" style="position: relative;">
+        <div class="header__middle">
+            <div class="header__middle-container grid wide">
+                <div class="header__middle-container-wrapper row no-gutters">
+                    <div class="header__middle-container-left col l-4 m-4 c-4">
+                        <div class="header__middle-container-left-wrapper show-menu">
+                            <div class="header__middle-container-left-menu"></div>
+                            <span class="box-triangle" style="left: -3px; top: 48px;">
+                                <svg viewBox="0 0 20 9">
+                                    <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+                                </svg>
+                            </span>
+                            <div class="header__middle-container-left-menu-mobile">
+                                <div class="header__middle-container-left-menu-mobile-wrapper">
+                                    <ul class="menu-sidebar">
+                                        <li>
+                                            <a href="#">New Arrivals</a>
+                                        </li>
+                                        @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).categories.ToList())
+                                        {
+                                            <li><a href="@Url.Action("Collection", "FrontEnd", new {id = item.id})">@item.name</a></li>
+                                        }
+                                        <li><a href="#">Sale</a></li>
+                                        <li><a href="#">Accessories</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header__middle-container-center col l-4 m-4 c-4">
+                        <a href="@Url.Action("HomePage", "FrontEnd")">
+                            <img src="~/assets/frontend/images/logo.webp" alt="">
+                        </a>
+                    </div>
+                    <div class="header__middle-container-right col l-4 m-4 c-4">
+                        <div class="header__middle-container-right-icon">
+                            <!--search -->
+                            <div style="position: relative;">
+                                <i id="searchHeaderRight" class="fa-light fa-magnifying-glass"></i>
+                                <span class="box-triangle" style="right: 0px; top: 40px;">
+                                    <svg viewBox="0 0 20 9">
+                                        <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+                                    </svg>
+                                </span>
+                                <div class="header__middle-container-right-form-search">
+                                    <div class="header__middle-container-right-form-search-wrapper">
+                                        <p class="titlebox">Tìm kiếm</p>
+                                        <div class="header__middle-search-box">
+                                            <form action="">
+                                                <input type="text" name="search" autocomplete="off" class="header__middle-search-box-input" placeholder="Tìm kiếm sản phẩm...">
+                                                <button type="submit" class="header__middle-search-box-submit">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </button>
+                                            </form>
+                                            <div class="header__middle-search-box-result">
+                                                <div class="item-result">
+                                                    <div class="thumbs">
+                                                        <a href="#" title="MAVERIK FOOTBALL MESH JERSEY ( BLACK )" style="background-image: url('/assets/frontend/images/362263141_865388928444792_4057214548278294530_n_e7886f713cc14c0e9eadff0d394b8fd4_master.webp');"></a>
+                                                    </div>
+                                                    <div class="title">
+                                                        <a title="MAVERIK FOOTBALL MESH JERSEY ( BLACK )" href="#">MAVERIK FOOTBALL MESH JERSEY ( BLACK )</a>
+                                                        <p class="f-initial">500,000₫</p>
+                                                    </div>
+                                                </div>
+                                                <div class="resultsMore">
+                                                    <a href="#">Xem thêm 94 sản phẩm</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- user -->
+                            <div style="position: relative;">
+                                <i id="userHeaderRight" class="fa-light fa-user"></i>
+                                <span class="box-triangle" style="right: 0px; top: 35px;">
+                                    <svg viewBox="0 0 20 9">
+                                        <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+                                    </svg>
+                                </span>
+                                <div class="header__middle-container-right-form-user">
+                                    <div class="header__middle-container-right-form-user-wrapper">
+                                        @if (Session["client_id"] != null)
+                                        {
+                                            <div style="display: flex; justify-content: center; border-bottom: 1px solid #808080">
+                                                <h4 style="font-size: 16px; margin: 0 0 15px 0;">THÔNG TIN TÀI KHOẢN</h4>
+                                            </div>
+                                            <p style="display: block;font-size: 14px; margin: 15px 0; font-weight: 500;">@Session["client_name"]</p>
+                                            <a style="display: block; font-size: 14px; text-decoration: none; margin-bottom: 15px; color: #333; font-weight: 500; " href="@Url.Action("ClientProfile", "Client")">Thông tin tài khoản</a>
+                                            <form action="@Url.Action("ClientLogout", "Auth")" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button style="display: block; color: #333; font-size: 14px; background: #fff; border: unset; margin-bottom: 15px; padding: 0; font-weight: 500; cursor: pointer;" type="submit">Đăng xuất</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <div class="title-user">
+                                                <h2>ĐĂNG NHẬP TÀI KHOẢN</h2>
+                                                <p>Nhập email và mật khẩu của bạn</p>
+                                            </div>
+                                            <div class="container-user">
+                                                <form action="@Url.Action("ClientLogin", "Auth")" method="POST">
+                                                    @Html.AntiForgeryToken()
+                                                    <div class="container-user-account">
+                                                        <input type="text" name="email" required autocomplete="off">
+                                                        <label>Email</label>
+                                                    </div>
+                                                    <div class="container-user-password">
+                                                        <input type="password" name="password" required autocomplete="off">
+                                                        <label>Mật khẩu</label>
+                                                        <div class="sitebox-recaptcha">
+                                                            @if (TempData["err"] != null)
+                                                            {
+                                                                <p style="color: red;">@TempData["err"]</p>
+                                                            }
+                                                            This site is protected by reCAPTCHA and the Google
+                                                            <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>
+                                                            and <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">Terms of Service</a> apply.
+                                                        </div>
+                                                    </div>
+
+                                                    <button type="submit" class="container-user-submit button-dark">ĐĂNG NHẬP</button>
+                                                </form>
+                                                <div class="container-user-sub">
+                                                    <p>
+                                                        Khách hàng mới?
+                                                        <a href="#">Tạo tài khoản</a>
+                                                    </p>
+                                                    <p>
+                                                        Quên mật khẩu?
+                                                        <a href="#">Khôi phục mật khẩu</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- cart -->
+                            <div style="position: relative;">
+                                <i id="cartHeaderRight" class="fa-light fa-cart-shopping"></i>
+                                <span id="cartQuantityItem">0</span>
+                                <span class="box-triangle" style="right: 0px; top: 35px;">
+                                    <svg viewBox="0 0 20 9">
+                                        <path d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z" fill="#ffffff"></path>
+                                    </svg>
+                                </span>
+                                <div class="header__middle-container-right-form-cart">
+                                    <div class="header__middle-container-right-form-cart-wrapper">
+                                        <p class="titlebox">GIỎ HÀNG</p>
+                                        <div class="header__middle-container-right-form-cart-view">
+
+                                        </div>
+                                        <div class="total-cart">
+                                            <div class="total-cart-info">
+                                                <p>TỔNG TIỀN:</p>
+                                                <p id="cartTotalMoney">0₫</p>
+                                            </div>
+                                            <div class="total-cart-button">
+                                                <a class="button-dark" href="#">XEM GIỎ HÀNG</a>
+                                                <a class="button-dark" href="@Url.Action("Pay", "FrontEnd")">THANH TOÁN</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header__bottom">
+            <div class="header__bottom-container grid wide">
+                <div class="header__bottom-container-wrapper row no-gutters">
+                    <div class="header__middle-container-center">
+                        <a href="#">
+                            <img src="~/assets/frontend/images/logo.webp" alt="">
+                        </a>
+                    </div>
+                    <ul class="header__bottom-container-wrapper-menu-list">
+                        <li><a href="#">new arrivals</a></li>
+                        @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).categories.ToList())
+                        {
+                            <li><a href="@Url.Action("Collection", "FrontEnd", new {id = item.id})">@item.name</a></li>
+                        }
+                        <li><a href="#">sale</a></li>
+                        <li><a href="#">spring summer 2023</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header__search">
+            <div class="header__search-wrapper grid wide">
+                <form action="" method="">
+                    <input type="text" name="search" autocomplete="off" class="header__search-wrapper-child" placeholder="Tìm kiếm sản phẩm...">
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

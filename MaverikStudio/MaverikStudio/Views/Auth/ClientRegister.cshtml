@@ -1,0 +1,196 @@
+﻿
+@{
+    Layout = "~/Views/Shared/frontend.cshtml";
+}
+
+<div class="container grid wide">
+    <div class="row">
+        <div class="client_login__wrapper col l-6 m-12 c-12">
+            <div class="client_login__header-page">
+                <h1>Tạo tài khoản</h1>
+            </div>
+        </div>
+
+        <div class="client_login__wrapper col l-6 m-12 c-12">
+            <form action="@Url.Action("HandleClientRegister", "Auth")" method="post">
+                @Html.AntiForgeryToken()
+                <div class="client_login__field">
+                    <input class="@(TempData["err_client_name"] != null ? "client__field_err" : "")" type="text" name="name" value="@(TempData["name"] != null ? TempData["name"] : "")" placeholder="Tên" />
+                    @if (TempData["err_client_name"] != null)
+                    {
+                        <span class="client__field_err_msg">@TempData["err_client_name"]</span>
+                    }
+                </div>
+
+                <div class="client_login__field" style="display: flex; align-items: center; font-size: 14px; font-weight: 500;">
+                    <input style="font-size: 16px;" id="male" class="" type="radio" name="gender" value="Nam" @(TempData["gender"] != null && TempData["gender"].Equals("Nam") ? "checked" : "")/>
+                    <label for="male" style="padding: 0 10px 0 5px;">Nam</label>
+                    <input style="font-size: 16px;" id="female" class="" type="radio" name="gender" value="Nữ" @(TempData["gender"] != null && TempData["gender"].Equals("Nữ") ? "checked" : "")/>
+                    <label for="female" style="padding: 0 10px 0 5px;">Nữ</label>
+                    @if (TempData["err_client_gender"] != null)
+                    {
+                        <span class="client__field_err_msg">@TempData["err_client_gender"]</span>
+                    }
+                </div>
+
+                <div class="client_login__field">
+                    <input class="@(TempData["err_client_date_of_birth"] != null ? "client__field_err" : "")" type="text" name="date_of_birth" value="@(TempData["date_of_birth"] != null ? TempData["date_of_birth"] : "")" placeholder="dd/mm/yyyy" />
+                    @if (TempData["err_client_date_of_birth"] != null)
+                    {
+                        <span class="client__field_err_msg">@TempData["err_client_date_of_birth"]</span>
+                    }
+                </div>
+
+                <div class="client_login__field">
+                    <input class="@(TempData["err_client_address"] != null ? "client__field_err" : "")" type="text" name="address" value="@(TempData["address"] != null ? TempData["address"] : "")" placeholder="Địa chỉ" />
+                    @if (TempData["err_client_address"] != null)
+                    {
+                        <span class="client__field_err_msg">@TempData["err_client_address"]</span>
+                    }
+                </div>
+
+                <div class="client_login__field">
+                    <input class="@(TempData["err_client_phone_number"] != null ? "client__field_err" : "")" type="text" name="phone_number" value="@(TempData["phone_number"] != null ? TempData["phone_number"] : "")" placeholder="Số điện thoại" />
+                    @if (TempData["err_client_phone_number"] != null)
+                    {
+                        <span class="client__field_err_msg">@TempData["err_client_phone_number"]</span>
+                    }
+                </div>
+
+                <div class="client_login__field">
+                    <input class="@(TempData["err_client_email"] != null ? "client__field_err" : "")" type="email" name="email" value="@(TempData["email"] != null ? TempData["email"] : "")" placeholder="Email" />
+                    @if (TempData["err_client_email"] != null)
+                    {
+                        <span class="client__field_err_msg">@TempData["err_client_email"]</span>
+                    }
+                </div>
+
+                <div class="client_login__field">
+                    <input class="@(TempData["err_client_password"] != null ? "client__field_err" : "")" type="password" name="password" value="@(TempData["password"] != null ? TempData["password"] : "")" placeholder="Mật khẩu" />
+                    @if (TempData["err_client_password"] != null)
+                    {
+                        <span class="client__field_err_msg">@TempData["err_client_password"]</span>
+                    }
+                </div>
+
+                <div class="client_login__submit">
+                    <button type="submit" class="button-dark">ĐĂNG KÝ</button>
+                    <a href="@Url.Action("ClientLogin", "Auth")" class="button-dark" style="margin-left: 12px; text-decoration: none;">ĐĂNG NHẬP</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section css{
+    <style>
+        .container {
+            padding: 0 15px;
+        }
+
+        .client__field_err {
+            border: 1px solid red !important;
+        }
+
+        .client__field_err_msg {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .client_login__wrapper {
+            border-top: 1px solid #ededed;
+        }
+
+            .client_login__wrapper:first-of-type {
+                display: flex;
+                align-items: center;
+            }
+
+            .client_login__wrapper:first-child {
+                border-right: 1px solid #ededed;
+            }
+
+        .client_login__header-page {
+            margin-top: 30px;
+            position: relative;
+        }
+
+            .client_login__header-page h1 {
+                font-size: 40px;
+                font-weight: 700;
+                margin: 0px 0;
+            }
+
+            .client_login__header-page::after {
+                content: "";
+                background: #000;
+                display: block;
+                width: 60px;
+                height: 4px;
+                margin-top: 30px;
+                border-radius: 10px
+            }
+
+        .client_login__field {
+            margin-bottom: 30px;
+        }
+
+            .client_login__field:first-of-type {
+                margin-top: 45px;
+            }
+
+            .client_login__field input:not([type="radio"]) {
+                width: 100%;
+                height: 55px;
+                border: 1px solid transparent;
+                background: #ededed;
+                color: #272727;
+                padding: 0 20px;
+                font-weight: 500;
+                font-size: 14px;
+            }
+
+        .client_login__submit {
+            display: flex;
+        }
+
+            .client_login__submit button,
+            .client_login__submit a {
+                padding: 14px 28px;
+                font-weight: 700;
+            }
+
+        @@media(max-width: 1024px) {
+            .client_login__wrapper:first-of-type {
+                justify-content: center;
+            }
+
+            .client_login__header-page::after {
+                margin: 30px auto 0;
+            }
+
+            .client_login__wrapper:first-child {
+                border-right: unset;
+            }
+
+            .client_login__wrapper:last-child {
+                border-top: unset;
+            }
+
+            .client_login__submit {
+                justify-content: center;
+            }
+        }
+    </style>
+}
+
+@section js{
+    <script src="~/assets/frontend/js/container-sidebar.js"></script>
+    <script src="~/assets/frontend/js/addcart.js"></script>
+    <script>
+        HandleSlider('#slider1');
+    </script>
+}
+

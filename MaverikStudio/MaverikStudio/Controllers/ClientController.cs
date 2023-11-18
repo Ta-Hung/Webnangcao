@@ -245,6 +245,20 @@ namespace MaverikStudio.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+        [HttpGet]
+        public ActionResult ClientProfile()
+        {
+            if (Session["client_id"] != null)
+            {
+                int idClient = (int)Session["client_id"];
+                client client = db.clients.FirstOrDefault(m => m.id == idClient);
+
+                return View(client);
+            }
+
+            return RedirectToAction("ClientLogin", "Auth");
+        }
+
 
         public bool Validate(int id = 0)
         {

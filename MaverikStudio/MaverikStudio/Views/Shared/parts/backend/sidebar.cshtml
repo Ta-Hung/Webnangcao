@@ -247,6 +247,26 @@
                 </li>
                 @*EndProduct*@
 
+                @*Order*@
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/order") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/order") ? "active" : "")">
+                        <i class="nav-icon fa-light fa-box-open"></i>
+                        <p>
+                            Order
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index","Order")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/order/index") ? "active" : "")">
+                                <i class="fa-light fa-list-dropdown nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @*EndOrder*@
+
                 <li class="nav-item button-logout">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa-light fa-right-from-bracket"></i>

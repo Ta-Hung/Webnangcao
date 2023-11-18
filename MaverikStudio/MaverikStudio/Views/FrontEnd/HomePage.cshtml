@@ -1,0 +1,87 @@
+﻿@model List<MaverikStudio.Models.product>
+@{
+    Layout = "~/Views/Shared/frontend.cshtml";
+}
+
+
+<div class="container">
+    <div class="homepage__slider grid">
+        <div id="slider2" class="homepage__slider-content">
+            <div class="homepage__slider-list-item row no-gutters">
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_1.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_2.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_3.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_4.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_1.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_2.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_3.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_4.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_1.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_2.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_3.webp" alt=""></div>
+                <div class="homepage__slider-item col l-12 m-12 c-12"><img src="~/assets/frontend/images/slideshow_4.webp" alt=""></div>
+            </div>
+            <div class="homepage__slider-control-left"><i class="fa-regular fa-angle-left"></i></div>
+            <div class="homepage__slider-control-right"><i class="fa-regular fa-angle-right"></i></div>
+        </div>
+    </div>
+
+    <div class="container__wrapper grid wide">
+        <h2 class="slider-title">
+            READY TO WEAR
+        </h2>
+        <div class="row">
+            <div class="container__content col l-12 m-12 c-12">
+                <div class="row">
+                    @foreach (var product in Model)
+                    {
+                        <div class="container__content-product col l-3 m-3 c-6">
+                            <div class="container__content-product-wrapper">
+                                <div class="container__content-product-img">
+                                    @if (product.sale > 0)
+                                    {
+                                        <div class="container__content-product-sale">
+                                            <span>@(product.sale + "%")</span>
+                                        </div>
+                                    }
+                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.FirstOrDefault().image);"></a>
+                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.FirstOrDefault().image);"></a>
+                                </div>
+                                <div class="container__content-product-info">
+                                    <div class="container__content-product-info-wrapper">
+                                        <h3>
+                                            <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" title="@product.name">@product.name</a>
+                                        </h3>
+                                        @if (product.sale > 0)
+                                        {
+                                            <p class="has-sale">@(string.Format("{0:#,##0}", (product.price - (product.price * product.sale / 100))) + "đ")<span><del>@(string.Format("{0:#,##0}", product.price) + "đ")</del></span></p>
+                                        }
+                                        else
+                                        {
+                                            <p class="">@(string.Format("{0:#,##0}", product.price) + "đ")</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- Phân trang ở đây -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css{
+    <link rel="stylesheet" href="~/assets/frontend/css/homepage.css">
+}
+
+@section js{
+    <script src="~/assets/frontend/js/container-sidebar.js"></script>
+    <script src="~/assets/frontend/js/addcart.js"></script>
+    <script>
+        HandleSlider('#slider1');
+        HandleSlider('#slider2', 4000, false, '.homepage__slider-control-left', '.homepage__slider-control-right', '.homepage__slider-list-item', '.homepage__slider-item');
+    </script>
+}
+

@@ -72,7 +72,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="">Chiều dài</label>
-                        <input type="text" name="lenght" value="@(TempData["lenght"] != null ? TempData["lenght"] : Model.size1)" placeholder="Chiều dài..." class="form-control" />
+                        <input type="text" name="lenght" value="@(TempData["lenght"] != null ? TempData["lenght"] : Model.lenght)" placeholder="Chiều dài..." class="form-control" />
                         @if (TempData["err_size_lenght"] != null)
                         {
                             <span class="text-danger">

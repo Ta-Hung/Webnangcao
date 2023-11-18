@@ -1,0 +1,121 @@
+﻿@model MaverikStudio.Models.client
+@{
+    Layout = "~/Views/Shared/frontend.cshtml";
+}
+
+<div class="container grid wide">
+    <div class="row">
+        <div class="client_profile__wrapper col l-12 m-12 c-12">
+            <div class="client_profile__header-page">
+                <h1>Tài khoản của bạn</h1>
+            </div>
+        </div>
+
+        <div class="col l-4 m-12 c-12">
+            <div class="client_profile__header">
+                <h3>TÀI KHOẢN</h3>
+            </div>
+
+            <form action="@Url.Action("ClientLogout", "Auth")" method="post">
+                @Html.AntiForgeryToken()
+                <button style="display: block; color: #333; font-size: 14px; background: #fff; border: unset; margin-bottom: 15px; padding: 0; font-weight: 500; cursor: pointer;" type="submit">Đăng xuất</button>
+            </form>
+        </div>
+
+        <div class="col l-8 m-12 c-12">
+            <div class="client_profile__header" style="border-bottom: 1px solid #ededed">
+                <h3>THÔNG TIN TÀI KHOẢN</h3>
+            </div>
+
+            <div class="row">
+                <p class="client_profile__info col l-6 m-6 c-6">Tên: @Model.name</p>
+                <p class="client_profile__info col l-6 m-6 c-6">Email: @Model.email</p>
+                <p class="client_profile__info col l-6 m-6 c-6">Số điện thoại: @Model.phone_number</p>
+                <p class="client_profile__info col l-6 m-6 c-6">Địa chỉ: @Model.address</p>
+            </div>
+
+            <div style="padding: 10px; background: #f2f5fa; margin-top: 10px;">
+                <div class="client_profile__header">
+                    <h3 style="margin-top: 5px;">DANH SÁCH ĐƠN HÀNG ĐÃ ĐẶT</h3>
+                </div>
+                <table style="width: 100%; background: #fff; font-size: 14px;">
+                    <thead style="">
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Ngày đặt</th>
+                            <th>Thành tiền</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-weight: 400;">
+                        @foreach (var order in Model.orders.OrderByDescending(m => m.created_at).ToList())
+                        {
+                            <tr>
+                                <td>@order.id</td>
+                                <td>@order.created_at</td>
+                                <td>@string.Format("{0:#,##0}đ", order.total_money)</td>
+                                <td>@order.status.name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css{
+    <style>
+        .container {
+            padding: 0 15px;
+        }
+
+        .client_profile__wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .client_profile__header-page {
+            font-size: 18px;
+        }
+
+            .client_profile__header-page::after {
+                content: "";
+                background: #000;
+                display: block;
+                width: 60px;
+                height: 4px;
+                margin: 30px auto 30px;
+                border-radius: 10px;
+            }
+
+        .client_profile__header {
+            font-size: 12px;
+        }
+
+        .client_profile__info {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        table th {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table td {
+            padding: 5px 0;
+            text-align: center;
+        }
+    </style>
+}
+
+@section js{
+    <script src="~/assets/frontend/js/container-sidebar.js"></script>
+    <script src="~/assets/frontend/js/addcart.js"></script>
+    <script>
+        HandleSlider('#slider1');
+    </script>
+}
+

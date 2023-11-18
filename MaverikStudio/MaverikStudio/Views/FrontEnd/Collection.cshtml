@@ -1,0 +1,119 @@
+﻿@model List<MaverikStudio.Models.product>
+@{
+    Layout = "~/Views/Shared/frontend.cshtml";
+}
+
+<div class="container">
+    <div class="container__path">
+        <div class="container__path-warraper grid wide">
+            <ul class="row no-gutters">
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#">Danh mục</a></li>
+                <li><a href="#">@ViewBag.title</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container__wrapper grid wide">
+        <div class="row">
+            <div class="container__sidebar col l-3 m-12 c-12">
+                <div class="container__sidebar-wrapper">
+                    <div class="container__sidebar-menu">
+                        <div class="container__sidebar-menu-title">
+                            DANH MỤC SẢN PHẨM
+                            <span><i class="fa-solid fa-angle-down"></i></span>
+                        </div>
+                        <div class="container__sidebar-menu-content">
+                            <ul class="menu-sidebar">
+                                <li>
+                                    <a href="#">New Arrivals</a>
+                                </li>
+                                @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).categories.ToList())
+                                {
+                                    <li><a href="@Url.Action("Collection", "FrontEnd", new {id = item.id})">@item.name</a></li>
+                                }
+                                <li><a href="#">Sale</a></li>
+                                <li><a href="#">Accessories</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="container__sidebar-brands">
+                        <div class="container__sidebar-menu-title">
+                            BỘ LỌC SẢN PHẨM
+                            <span><i class="fa-solid fa-angle-down"></i></span>
+                        </div>
+                        <div class="container__sidebar-brands-content">
+                            <p>THƯƠNG HIỆU -</p>
+                            <ul>
+                                <li>
+                                    <input type="checkbox" name="other">
+                                    <label>Khác</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="other">
+                                    <label>Maverik Studio</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container__content col l-9 m-12 c-12">
+                <div class="container__content-header">
+                    <h1>@ViewBag.title</h1>
+                    <select name="" id="">
+                        <option value="">Sản phẩm nổi bật</option>
+                        <option value="">Mới nhất</option>
+                        <option value="">Cũ nhất</option>
+                        <option value="">Giá tăng dần</option>
+                        <option value="">Giá giảm dần</option>
+                        <option value="">Tồn kho giảm dần</option>
+                        <option value="">Bán chạy nhất</option>
+                    </select>
+                </div>
+                <div class="row">
+                    @foreach (var product in Model)
+                    {
+                        <div class="container__content-product col l-3 m-3 c-6">
+                            <div class="container__content-product-wrapper">
+                                <div class="container__content-product-img">
+                                    @if (product.sale > 0)
+                                    {
+                                        <div class="container__content-product-sale">
+                                            <span>@(product.sale + "%")</span>
+                                        </div>
+                                    }
+                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.FirstOrDefault().image);"></a>
+                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.FirstOrDefault().image);"></a>
+                                </div>
+                                <div class="container__content-product-info">
+                                    <div class="container__content-product-info-wrapper">
+                                        <h3>
+                                            <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" title="@product.name">@product.name</a>
+                                        </h3>
+                                        @if (product.sale > 0)
+                                        {
+                                            <p class="has-sale">@(string.Format("{0:#,##0}", (product.price - (product.price * product.sale / 100))) + "đ")<span><del>@(string.Format("{0:#,##0}", product.price) + "đ")</del></span></p>
+                                        }
+                                        else
+                                        {
+                                            <p class="">@(string.Format("{0:#,##0}", product.price) + "đ")</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- Phân trang ở đây -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section js{
+    <script src="~/assets/frontend/js/container-sidebar.js"></script>
+    <script src="~/assets/frontend/js/addcart.js"></script>
+    <script>
+        HandleSlider('#slider1');
+    </script>
+}

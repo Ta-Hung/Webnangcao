@@ -21,23 +21,23 @@ for(let i=0;i<iconMenuMobile.length;i++) {
     }) 
 }
 
-if(barMenuMobile.offsetHeight == 0) {
+if (barMenuMobile && barMenuMobile.offsetHeight == 0) {
     barMenuMobile.style.display = 'block';
     barMenuMobile.style.height = 'auto';
     heightContentMenuMobile = barMenuMobile.offsetHeight;
     barMenuMobile.style.display = 'none';
     barMenuMobile.style.height = '0px';
-} else {
+} else if (barMenuMobile) {
     heightContentMenuMobile = barMenuMobile.offsetHeight;
 }
 
-if(barBrandsMobile.offsetHeight == 0) {
+if (barBrandsMobile && barBrandsMobile.offsetHeight == 0) {
     barBrandsMobile.style.display = 'block';
     barBrandsMobile.style.height = 'auto';
     heightContentBrandsMobile = barBrandsMobile.offsetHeight;
     barBrandsMobile.style.display = 'none';
     barBrandsMobile.style.height = '0px';
-} else {
+} else if (barBrandsMobile){
     heightContentBrandsMobile = barBrandsMobile.offsetHeight;
 }
 
@@ -83,33 +83,36 @@ function HandleHeight(element, intervalOrg, durationOrg, heightOrg) {
     }, interval);
 }
 
-barTitleMenuMobile.addEventListener('click', () => {
-    if(enableMenuSidebarClick) {
-        if(barMenuMobile.offsetHeight == 0) {
-            enableMenuSidebarClick = false;
-            iconBarTitleMenuMobile.classList.toggle('rotate180');
-            HandleHeight('.container__sidebar-menu-content', 16.67, 300, heightContentMenuMobile);
-        } else if(barMenuMobile.offsetHeight == heightContentMenuMobile) {
-            enableMenuSidebarClick = false;
-            iconBarTitleMenuMobile.classList.toggle('rotate180');
-            HandleHeight('.container__sidebar-menu-content', 16.67, 300, heightContentMenuMobile);
+if (barTitleMenuMobile) {
+    barTitleMenuMobile.addEventListener('click', () => {
+        if (enableMenuSidebarClick) {
+            if (barMenuMobile.offsetHeight == 0) {
+                enableMenuSidebarClick = false;
+                iconBarTitleMenuMobile.classList.toggle('rotate180');
+                HandleHeight('.container__sidebar-menu-content', 16.67, 300, heightContentMenuMobile);
+            } else if (barMenuMobile.offsetHeight == heightContentMenuMobile) {
+                enableMenuSidebarClick = false;
+                iconBarTitleMenuMobile.classList.toggle('rotate180');
+                HandleHeight('.container__sidebar-menu-content', 16.67, 300, heightContentMenuMobile);
+            }
         }
-    }
-})
+    })
 
-barTitleBrandsMobile.addEventListener('click', () => {
-    if(enableMenuSidebarClick) {
-        if(barBrandsMobile.offsetHeight == 0) {
-            enableMenuSidebarClick = false;
-            iconBarTitleBrandsMobile.classList.toggle('rotate180');
-            HandleHeight('.container__sidebar-brands-content', 16.67, 300, heightContentBrandsMobile);
-        } else if(barBrandsMobile.offsetHeight == heightContentBrandsMobile) {
-            enableMenuSidebarClick = false;
-            iconBarTitleBrandsMobile.classList.toggle('rotate180');
-            HandleHeight('.container__sidebar-brands-content', 16.67, 300, heightContentBrandsMobile);
+    barTitleBrandsMobile.addEventListener('click', () => {
+        if (enableMenuSidebarClick) {
+            if (barBrandsMobile.offsetHeight == 0) {
+                enableMenuSidebarClick = false;
+                iconBarTitleBrandsMobile.classList.toggle('rotate180');
+                HandleHeight('.container__sidebar-brands-content', 16.67, 300, heightContentBrandsMobile);
+            } else if (barBrandsMobile.offsetHeight == heightContentBrandsMobile) {
+                enableMenuSidebarClick = false;
+                iconBarTitleBrandsMobile.classList.toggle('rotate180');
+                HandleHeight('.container__sidebar-brands-content', 16.67, 300, heightContentBrandsMobile);
+            }
         }
-    }
-})
+    })
+}
+
 
 //Handle filter checkbox
 let labelFilter = document.querySelectorAll('.container__sidebar-brands-content label');

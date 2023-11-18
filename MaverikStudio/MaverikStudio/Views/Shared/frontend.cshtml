@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.title</title>
+    <link rel="stylesheet" href="~/assets/frontend/fonts/stylesheet.css">
+    <link rel="stylesheet" href="~/assets/icon/fontawesome-pro-642/css/icon.css">
+    <link rel="stylesheet" href="~/assets/frontend/css/normalize.css">
+    <link rel="stylesheet" href="~/assets/frontend/css/base.css">
+    <link rel="stylesheet" href="~/assets/frontend/css/buustrap.css">
+
+    <link rel="stylesheet" href="~/assets/frontend/css/header.css">
+    <link rel="stylesheet" href="~/assets/frontend/css/container.css">
+    <link rel="stylesheet" href="~/assets/frontend/css/slider.css">
+    <link rel="stylesheet" href="~/assets/frontend/css/footer.css">
+
+    @RenderSection("css", false)
+</head>
+<body id="idBody">
+    <div class="main-body">
+        @Html.Partial("~/Views/Shared/parts/frontend/header.cshtml")
+
+        @RenderBody()
+
+        @Html.Partial("~/Views/Shared/parts/frontend/slider.cshtml")
+
+        @Html.Partial("~/Views/Shared/parts/frontend/footer.cshtml")
+    </div>
+
+    <script src="~/assets/frontend/js/jquery.3.3.7.min.js"></script>
+    <script src="~/assets/frontend/js/header.js"></script>
+    <script src="~/assets/frontend/js/slider.js"></script>
+    <script src="~/assets/frontend/js/showcart.js"></script>
+
+    @RenderSection("js", false)
+</body>
+</html>
