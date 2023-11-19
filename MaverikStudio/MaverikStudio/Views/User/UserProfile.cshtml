@@ -1,0 +1,303 @@
+﻿
+@model MaverikStudio.Models.user
+@{
+    Layout = "~/Views/Shared/backend.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="~/assets/plugins/buu-upload-image/main.css">
+    <style>
+        .label-for-form label {
+            font-weight: 500 !important;
+        }
+    </style>
+}
+<form id="form-profile" action="@Url.Action("HandleUserProfile", "User", new {id = Model.id})" method="POST" class="form-group label-for-form" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Tên người dùng</label>
+                        <input type="text" name="name" value="@(TempData["name"] != null ? TempData["name"] : Model.name)" placeholder="Tên..." class="form-control" />
+                        @if (TempData["err_user_name"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_name"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Địa chỉ</label>
+                        <input type="text" name="address" value="@(TempData["address"] != null ? TempData["address"] : Model.address)" placeholder="Địa chỉ..." class="form-control" />
+                        @if (TempData["err_user_address"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_address"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Số điện thoại</label>
+                        <input type="text" name="phone_number" value="@(TempData["phone_number"] != null ? TempData["phone_number"] : Model.phone_number)" placeholder="Số điện thoại..." class="form-control" />
+                        @if (TempData["err_user_phone_number"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_phone_number"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Lương</label>
+                        <input type="text" value="@string.Format("{0:#,##0}đ", Model.salary)" placeholder="Lương..." class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="text" value="@Model.email" placeholder="Email..." class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Nhóm</label>
+                        <input type="text" value="@Model.group.name" placeholder="Nhóm..." class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Ngày sinh</label>
+                        <div class="input-group date" id="id_4">
+                            <input type="text" name="date_of_birth" value="@(TempData["date_of_birth"] != null ? TempData["date_of_birth"] : Model.date_of_birth.ToString("yyyy-MM-dd"))" placeholder="Ngày sinh..." class="form-control" required="">
+                            <div class="input-group-addon input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                </div>
+                            </div>
+                        </div>
+                        @if (TempData["err_user_date_of_birth"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_date_of_birth"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="" class="d-block">Giới tính</label>
+                        @{
+                            if (TempData["gender"] == null)
+                            {
+                                TempData["gender"] = Model.gender;
+                            }
+                        }
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="gender_male" name="gender" value="Nam" @(TempData["gender"] != null && TempData["gender"].Equals("Nam") ? "checked" : "")>
+                            <label class="custom-control-label" for="gender_male">Nam</label>
+                        </div>
+
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="gender_female" name="gender" value="Nữ" @(TempData["gender"] != null && TempData["gender"].Equals("Nữ") ? "checked" : "")>
+                            <label class="custom-control-label" for="gender_female">Nữ</label>
+                        </div>
+
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="gender_other" name="gender" value="Khác" @(TempData["gender"] != null && TempData["gender"].Equals("Khác") ? "checked" : "")>
+                            <label class="custom-control-label" for="gender_other">Khác</label>
+                        </div>
+                        @if (TempData["err_user_gender"] != null)
+                        {
+                            <span class="text-danger d-block">
+                                @TempData["err_user_gender"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Mật khẩu</label>
+                        <input type="password" name="password" value="@(TempData["password"] != null ? TempData["password"] : "")" placeholder="Mật khẩu..." class="form-control" />
+                        @if (TempData["err_user_password"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_password"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Nhập lại</label>
+                        <input type="password" name="confirm_password" value="@(TempData["confirm_password"] != null ? TempData["confirm_password"] : "")" placeholder="Nhập lại mật khẩu..." class="form-control" />
+                        @if (TempData["err_user_confirm_password"] != null)
+                        {
+                            <span class="text-danger">
+                                @TempData["err_user_confirm_password"]
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="">Chọn ảnh</label>
+                        <div class="upload-image__wrapper" @(TempData["err_user_filepath"] != null ? @"style=""border: 3px dashed #dc3545;""" : "")>
+                            <div class="row" style="margin-left: -5px; margin-right: -5px;">
+                                @if (TempData != null && TempData.ContainsKey("filepath") && TempData["filepath"] is IEnumerable<string> myArray)
+                                {
+                                    foreach (var item in myArray)
+                                    {
+                                        <div class="upload-image__parent col-12 pl-1 pr-1 mb-2">
+                                            <div class="upload-image__item-wrapper">
+                                                <div class="upload-image__item" style="background-image: url('@item');">
+                                                    <input class="form-control upload-image__holder" type="text" name="filepath[]" value="@item" style="display: none;">
+                                                </div>
+                                                <div class="upload-image__destroy"></div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="upload-image__parent col-12 pl-1 pr-1 mb-2">
+                                        <div class="upload-image__item-wrapper">
+                                            <div class="upload-image__item" style="background-image: url('@Model.thumbnail');">
+                                                <input class="form-control upload-image__holder" type="text" name="filepath[]" value="@Model.thumbnail" style="display: none;">
+                                            </div>
+                                            <div class="upload-image__destroy"></div>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="upload-image__parent col-12 pl-1 pr-1 mb-2">
+                                    <div class="upload-image__item-wrapper">
+                                        <div class="upload-image__item"></div>
+                                        <div class="upload-image__create"><i class="fa-thin fa-cloud-arrow-up"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (TempData["err_user_filepath"] != null)
+                        {
+                            <div class="invalid-feedback" style="display: block;">
+                                @TempData["err_user_filepath"]
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input id="submit-profile" type="submit" value="Cập nhật" class="btn btn-primary mr-2">
+    <input type="password" name="password_old" style="display: none;">
+</form>
+
+@section js{
+    <script src="~/assets/plugins/moment-js/moment.js"></script>
+    <script src="~/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="~/assets/plugins/sweet-alert/sweet-alert.js"></script>
+    <script src="~/assets/plugins/ckfinder/ckfinder.js"></script>
+    <script src="~/assets/plugins/buu-upload-image/main.js"></script>
+
+    <script>
+        $('#id_4').datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            "format": "YYYY/MM/DD",
+            icons: {
+                time: "fa-light fa-timer",
+                date: "fa-solid fa-calendar-days",
+                up: "fa-regular fa-chevron-up",
+                down: "fa-regular fa-chevron-down",
+                previous: "fa-regular fa-chevron-left",
+                next: "fa-regular fa-chevron-right",
+                today: "fa-light fa-crosshairs-simple",
+                clear: "fa-light fa-trash-can",
+            },
+        });
+
+        $(function () {
+            buuUploadImage(false, 1, 'col-12');
+        })
+
+        $(function () {
+            $('#submit-profile').click(function (e) {
+                e.preventDefault();
+                let formProfile = $(this);
+                // Sử dụng Promise để xử lý Swal.fire
+                const swalPromise = new Promise(async (resolve) => {
+                    const { value: password } = await Swal.fire({
+                        title: 'Nhập mật khẩu để xác nhận',
+                        input: 'password',
+                        icon: 'info',
+                        inputPlaceholder: 'Mật khẩu...',
+                        inputAttributes: {
+                            autocapitalize: 'off',
+                            autocorrect: 'off'
+                        }
+                    });
+
+                    resolve(password);
+                });
+
+                // Sử dụng then để xử lý kết quả
+                swalPromise.then(function (password) {
+                    if (password) {
+                        $('input[name="password_old"]').val(password);
+                        $('#form-profile').submit();
+                    } else if (password === '') {
+                        Swal.fire(
+                            'Mật khẩu không chính xác',
+                            '',
+                            'error'
+                        );
+                    }
+                });
+            });
+        });
+    </script>
+
+    @if (TempData["msg"] != null)
+    {
+        <script>
+        Swal.fire(
+            "@TempData["msg"]",
+            "",
+            "success"
+        );
+        </script>
+    }
+
+    @if (TempData["err_user_password_old"] != null)
+    {
+        <script>
+            Swal.fire(
+                "@TempData["err_user_password_old"]",
+                "",
+                "error"
+            );
+        </script>
+    }
+}
+
+
+

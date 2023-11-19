@@ -34,5 +34,85 @@
     <script src="~/assets/frontend/js/showcart.js"></script>
 
     @RenderSection("js", false)
+<script>
+
+        $(function () {
+            const boxBigSearchResult = $('.header__middle-search-box-result:not([id="resultMobileSearch"])');
+            $("#bigSearch").keyup(function () {
+                let searchValue = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("Search", "FrontEnd")',
+                    method: 'GET',
+                    data: { search : searchValue },
+                    success: function (response) {
+                        let resultSearch = response.map(function (item, index) {
+                            if (index == response.length - 1) {
+                                return "";
+                            }
+                            return `
+                                <div class="item-result">
+                                    <div class="thumbs">
+                                        <a href="/FrontEnd/Product/${item.id}" title="${item.name}" style="background-image: url('${item.image}');"></a>
+                                    </div>
+                                    <div class="title">
+                                        <a title="${item.name}" href="/FrontEnd/Product/${item.id}">${item.name}</a>
+                                        <p class="f-initial">${item.price}</p>
+                                    </div>
+                                </div>
+                            `
+                        }).join(" ");
+
+                        boxBigSearchResult.html(resultSearch);
+
+                        if (response[response.length - 1].total > 5) {
+                            let seeMore = $(`<div class= "resultsMore" ><a href="/FrontEnd/ResultAll?search=${searchValue}">Xem thêm ${response[response.length - 1].total} sản phẩm</a></div>`);
+                            boxBigSearchResult.append(seeMore);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi khi gửi yêu cầu AJAX:', status, error);
+                    }
+                });
+            });
+
+            const boxMobileSearchResult = $('.header__middle-search-box-result:not([id="resultBigSearch"])');
+            $("#mobileSearch").keyup(function () {
+                let searchValue = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("Search", "FrontEnd")',
+                    method: 'GET',
+                    data: { search : searchValue },
+                    success: function (response) {
+                        let resultSearch = response.map(function (item, index) {
+                            if (index == response.length - 1) {
+                                return "";
+                            }
+                            return `
+                                <div class="item-result">
+                                    <div class="thumbs">
+                                        <a href="/FrontEnd/Product/${item.id}" title="${item.name}" style="background-image: url('${item.image}');"></a>
+                                    </div>
+                                    <div class="title">
+                                        <a title="${item.name}" href="/FrontEnd/Product/${item.id}">${item.name}</a>
+                                        <p class="f-initial">${item.price}</p>
+                                    </div>
+                                </div>
+                            `
+                        }).join(" ");
+
+                        boxMobileSearchResult.html(resultSearch);
+
+                        if (response[response.length - 1].total > 5) {
+                            let seeMore = $(`<div class= "resultsMore" ><a href="/FrontEnd/ResultAll?search=${searchValue}">Xem thêm ${response[response.length - 1].total} sản phẩm</a></div>`);
+                            boxMobileSearchResult.append(seeMore);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi khi gửi yêu cầu AJAX:', status, error);
+                    }
+                });
+            });
+        })
+</script>
 </body>
 </html>

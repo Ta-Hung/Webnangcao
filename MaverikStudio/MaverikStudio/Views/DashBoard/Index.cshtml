@@ -3,3 +3,56 @@
     Layout = "~/Views/Shared/backend.cshtml";
 }
 
+<div class="row">
+    <div class="col-6 col-md-3">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@ViewBag.quantityOrderNew</h3>
+                <p>Đơn hàng mới</p>
+            </div>
+            <div class="icon">
+                <i class="fa-light fa-bag-shopping"></i>
+            </div>
+            <a href="@Url.Action("Index", "Order")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@ViewBag.quantityOrderTransformer</h3>
+                <p>Đang vận chuyển</p>
+            </div>
+            <div class="icon">
+                <i class="fa-light fa-truck-arrow-right"></i>
+            </div>
+            <a href="@Url.Action("Index", "Order")?filter_status=2" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@ViewBag.quantityClients</h3>
+                <p>Khách hàng</p>
+            </div>
+            <div class="icon">
+                <i class="fa-light fa-people-simple"></i>
+            </div>
+            <a href="@Url.Action("Index", "Client")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@ViewBag.quantityInventory</h3>
+                <p>Hàng tồn</p>
+            </div>
+            <div class="icon">
+                <i class="fa-light fa-shirt"></i>
+            </div>
+            <a href="@Url.Action("Index", "Product")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>

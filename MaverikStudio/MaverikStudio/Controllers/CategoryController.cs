@@ -172,6 +172,14 @@ namespace MaverikStudio.Controllers
             {
                 var category = db.categories.Find(id);
 
+                int quantity = category.products.Count();
+
+                if(quantity > 0)
+                {
+                    TempData["err"] = $"Trong chuyên mục còn {quantity} sản phẩm nên không thể xóa";
+                    return RedirectToAction("Index");
+                }
+
                 db.categories.Remove(category);
                 db.SaveChanges();
 

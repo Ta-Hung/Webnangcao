@@ -82,8 +82,8 @@
                                             <span>@(product.sale + "%")</span>
                                         </div>
                                     }
-                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.FirstOrDefault().image);"></a>
-                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.FirstOrDefault().image);"></a>
+                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.OrderByDescending(m => m.created_at).Skip(0).Take(1).FirstOrDefault().image);"></a>
+                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.OrderByDescending(m => m.created_at).Skip(1).Take(1).FirstOrDefault().image);"></a>
                                 </div>
                                 <div class="container__content-product-info">
                                     <div class="container__content-product-info-wrapper">
@@ -105,6 +105,21 @@
                     }
                 </div>
                 <!-- Phân trang ở đây -->
+                <form action="@Url.Action("Collection", "FrontEnd", new {id = ViewBag.idCategory})" method="get" id="list_product">
+                    <div class="row">
+                        <div class="col l-12" style="display: flex; justify-content: center">
+                            <input type="submit" style="padding: 10px 15px; font-weight: 700; background-color: transparent; border: unset; font-size: 18px; cursor: pointer;" data-page="1" value="<<" @((int)TempData["product_page"] <= 1 ? "disabled" : "") />
+
+                            <input type="submit" style="padding: 10px 15px; font-weight: 700; background-color: transparent; border: unset; font-size: 18px; cursor: pointer;" data-page="@((int)TempData["product_page"] - 1)" value="<" @((int)TempData["product_page"] <= 1 ? "disabled" : "") />
+
+                            <button type="button" style="padding: 10px 15px; font-weight: 700; background-color: transparent; border: unset; font-size: 16px">@TempData["product_page"]/@TempData["product_total_page"]</button>
+                            <input type="submit" style="padding: 10px 15px; font-weight: 700; background-color: transparent; border: unset; font-size: 18px; cursor: pointer;" data-page="@((int)TempData["product_page"] + 1)" value=">" @((int)TempData["product_page"] >= (int)TempData["product_total_page"] ? "disabled" : "") />
+
+                            <input type="submit" style="padding: 10px 15px; font-weight: 700; background-color: transparent; border: unset; font-size: 18px; cursor: pointer;" data-page="@((int)TempData["product_total_page"])" value=">>" @((int)TempData["product_page"] >= (int)TempData["product_total_page"] ? "disabled" : "") />
+                            <input id="data_page" type="text" name="page" value="" style="display: none;" />
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -115,5 +130,15 @@
     <script src="~/assets/frontend/js/addcart.js"></script>
     <script>
         HandleSlider('#slider1');
+
+        $(function () {
+            const formListProduct = $("#list-product");
+            const dataPage = $('#data_page');
+            const controlPage = $('input[data-page]:not(:disabled)');
+            controlPage.click(function () {
+                dataPage.val($(this).data("page"));
+                formListProduct.submit();
+            });
+        })
     </script>
 }

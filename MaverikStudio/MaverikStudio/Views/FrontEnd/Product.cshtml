@@ -164,8 +164,8 @@
                                             <span>@(product.sale + "%")</span>
                                         </div>
                                     }
-                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.FirstOrDefault().image);"></a>
-                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.FirstOrDefault().image);"></a>
+                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.OrderByDescending(m => m.created_at).Skip(0).Take(1).FirstOrDefault().image);"></a>
+                                    <a href="@Url.Action("Product", "FrontEnd", new { id = product.id})" class="container__content-product-thumb" style="background-image: url(@product.product_images.OrderByDescending(m => m.created_at).Skip(1).Take(1).FirstOrDefault().image);"></a>
                                 </div>
                                 <div class="container__content-product-info">
                                     <div class="container__content-product-info-wrapper">

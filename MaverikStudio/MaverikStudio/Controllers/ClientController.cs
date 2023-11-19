@@ -127,18 +127,9 @@ namespace MaverikStudio.Controllers
                 }
                 if (Validate(id))
                 {
-                    var fImage = Request.Files["thumbnail"];
+                    string[] filePathArr = Request.Form.GetValues("filepath[]");
 
-                    if (fImage != null && fImage.ContentLength > 0)
-                    {
-                        string fileName = Path.GetFileName(fImage.FileName);
-                        string fileExtension = Path.GetExtension(fileName);
-                        string uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-                        string folder = Server.MapPath("~/assets/uploads/" + uniqueFileName);
-                        fImage.SaveAs(folder);
-                        client.thumbnail = "/assets/uploads/" + uniqueFileName;
-                    }
-
+                    client.thumbnail = filePathArr[0];
                     client.name = Request.Form["name"];
                     client.gender = Request.Form["gender"];
                     client.address = Request.Form["address"];
@@ -156,6 +147,7 @@ namespace MaverikStudio.Controllers
                 }
 
                 TempData["name"] = Request.Form["name"];
+                TempData["filepath"] = Request.Form.GetValues("filepath[]");
                 TempData["gender"] = Request.Form["gender"];
                 TempData["address"] = Request.Form["address"];
                 TempData["email"] = Request.Form["email"];
@@ -187,35 +179,28 @@ namespace MaverikStudio.Controllers
                 if (Validate())
                 {
                     client client = new client();
-                    var fImage = Request.Files["thumbnail"];
+                    string[] filePathArr = Request.Form.GetValues("filepath[]");
 
-                    if (fImage != null && fImage.ContentLength > 0)
-                    {
-                        string fileName = Path.GetFileName(fImage.FileName);
-                        string fileExtension = Path.GetExtension(fileName);
-                        string uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-                        string folder = Server.MapPath("~/assets/uploads/" + uniqueFileName);
-                        fImage.SaveAs(folder);
-                        client.thumbnail = "/assets/uploads/" + uniqueFileName;
-                        client.name = Request.Form["name"];
-                        client.gender = Request.Form["gender"];
-                        client.address = Request.Form["address"];
-                        client.email = Request.Form["email"];
-                        client.phone_number = Request.Form["phone_number"];
-                        client.password = MaverikStudio.Helpers.HelperMD5.GetMD5(Request.Form["password"]);
-                        client.date_of_birth = DateTime.Parse(Request.Form["date_of_birth"]);
-                        client.created_at = DateTime.Now;
-                        client.updated_at = DateTime.Now;
-                        db.clients.Add(client);
-                        db.SaveChanges();
+                    client.thumbnail = filePathArr[0];
+                    client.name = Request.Form["name"];
+                    client.gender = Request.Form["gender"];
+                    client.address = Request.Form["address"];
+                    client.email = Request.Form["email"];
+                    client.phone_number = Request.Form["phone_number"];
+                    client.password = MaverikStudio.Helpers.HelperMD5.GetMD5(Request.Form["password"]);
+                    client.date_of_birth = DateTime.Parse(Request.Form["date_of_birth"]);
+                    client.created_at = DateTime.Now;
+                    client.updated_at = DateTime.Now;
+                    db.clients.Add(client);
+                    db.SaveChanges();
 
-                        TempData["msg"] = "Thêm thành công";
-                    }
+                    TempData["msg"] = "Thêm thành công";
 
                     return RedirectToAction("Index");
                 }
 
                 TempData["name"] = Request.Form["name"];
+                TempData["filepath"] = Request.Form.GetValues("filepath[]");
                 TempData["gender"] = Request.Form["gender"];
                 TempData["address"] = Request.Form["address"];
                 TempData["email"] = Request.Form["email"];
@@ -274,21 +259,16 @@ namespace MaverikStudio.Controllers
                 TempData["err_client_address"] = "Địa chỉ khách hàng không được để trống";
                 check = false;
             }
-            if (Request.Files["thumbnail"].ContentLength == 0 && id == 0)
+            string[] filePathArr = Request.Form.GetValues("filepath[]");
+            if (filePathArr == null)
             {
-                TempData["err_client_thumbnail"] = "Ảnh khách hàng không được để trống";
+                TempData["err_client_filepath"] = "Ảnh khách hàng không được để trống";
                 check = false;
             }
-            else if (Request.Files["thumbnail"] != null && Request.Files["thumbnail"].ContentLength > 0)
+            else if (filePathArr.Length > 1)
             {
-                string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };
-                string fileExtension = Path.GetExtension(Request.Files["thumbnail"].FileName).ToLower();
-
-                if (!allowedExtensions.Contains(fileExtension))
-                {
-                    TempData["err_client_thumbnail"] = "Ảnh không đúng định dạng";
-                    check = false;
-                }
+                TempData["err_client_filepath"] = "Ảnh khách hàng chỉ có 1";
+                check = false;
             }
             string[] genders = { "Nam", "Nữ", "Khác" };
             if (Request.Form["gender"] == "" || Request.Form["gender"] == null)
@@ -342,7 +322,7 @@ namespace MaverikStudio.Controllers
                 TempData["err_client_date_of_birth"] = "Ngày sinh không đúng định dạng";
                 check = false;
             }
-            
+
             return check;
         }
     }

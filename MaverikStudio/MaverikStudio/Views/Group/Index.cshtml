@@ -310,5 +310,16 @@
         </script>
     }
 
+    @if (TempData["err"] != null)
+    {
+        <script>
+        Swal.fire(
+            "@TempData["err"]",
+            "",
+            "error"
+        );
+        </script>
+    }
+
 
 } 

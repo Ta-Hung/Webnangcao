@@ -232,6 +232,24 @@ namespace MaverikStudio.Controllers
             {
                 var product = db.products.Find(id);
 
+                List<product_details> product_Details = product.product_details.ToList();
+                bool check = true;
+
+                foreach(product_details item in product_Details)
+                {
+                    if(item.quantity_ready != item.quantity)
+                    {
+                        check = false;
+                        break;
+                    }
+                }
+
+                if(!check)
+                {
+                    TempData["err"] = "Sản phẩm này đang có khách đặt không thể xóa";
+                    return RedirectToAction("Index");
+                }
+
                 db.products.Remove(product);
                 db.SaveChanges();
 
@@ -282,7 +300,11 @@ namespace MaverikStudio.Controllers
                 TempData["err_product_filepath"] = "Ảnh sản phẩm không được để trống";
                 check = false;
             }
-
+            else if(filePathArr.Length < 2)
+            {
+                TempData["err_product_filepath"] = "Ảnh sản phẩm phải có ít nhất 2 ảnh";
+                check = false;
+            }
             if (Request.Form["price"] == "")
             {
                 TempData["err_product_price"] = "Giá bán không được để trống";

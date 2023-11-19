@@ -258,13 +258,13 @@
             });
         })
 
-        $(function() {
+        $(function () {
             let formDelete = $('#buu-form-delete');
 
-            $('#table-product').click(function(e) {
+            $('#table-product').click(function (e) {
                 let btnDelete = e.target.closest('.buu-action-delete');
-                
-                if(btnDelete) {
+
+                if (btnDelete) {
                     e.preventDefault();
                     Swal.fire({
                         title: 'Bạn đã nghĩ kỹ chưa?',
@@ -297,5 +297,14 @@
         </script>
     }
 
-
+    @if (TempData["err"] != null)
+    {
+        <script>
+            Swal.fire(
+                "@TempData["err"]",
+                "",
+                "error"
+            );
+        </script>
+    }
 } 

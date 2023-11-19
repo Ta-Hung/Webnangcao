@@ -6,6 +6,7 @@
 
 @section css{
     <link rel="stylesheet" href="~/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="~/assets/plugins/buu-upload-image/main.css">
     <style>
         .label-for-form label {
             font-weight: 500 !important;
@@ -104,6 +105,7 @@
 
                 <div class="col-6">
                     <div class="form-group">
+                        <label for="" class="d-block">Giới tính</label>
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" class="custom-control-input" id="gender_male" name="gender" value="Nam" @(TempData["gender"] != null && TempData["gender"].Equals("Nam") ? "checked" : "")>
                             <label class="custom-control-label" for="gender_male">Nam</label>
@@ -127,15 +129,38 @@
                     </div>
                 </div>
 
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group">
-                        <label for="" class="d-block">Ảnh</label>
-                        <input type="file" name="thumbnail" class="" value="@(TempData["thumbnail"] != null ? TempData["thumbnail"] : "")" />
-                        @if (TempData["err_client_thumbnail"] != null)
+                        <label for="">Chọn ảnh</label>
+                        <div class="upload-image__wrapper" style="@(TempData["err_client_filepath"] != null ? "border: 3px dashed #dc3545;" : "")">
+                            <div class="row" style="margin-left: -5px; margin-right: -5px;">
+                                @if (TempData != null && TempData.ContainsKey("filepath") && TempData["filepath"] is IEnumerable<string> myArray)
+                                {
+                                    foreach (var item in myArray)
+                                    {
+                                        <div class="upload-image__parent col-12 pl-1 pr-1 mb-2">
+                                            <div class="upload-image__item-wrapper">
+                                                <div class="upload-image__item" style="background-image: url('@item');">
+                                                    <input class="form-control upload-image__holder" type="text" name="filepath[]" value="@item" style="display: none;">
+                                                </div>
+                                                <div class="upload-image__destroy"></div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                <div class="upload-image__parent col-12 pl-1 pr-1 mb-2">
+                                    <div class="upload-image__item-wrapper">
+                                        <div class="upload-image__item"></div>
+                                        <div class="upload-image__create"><i class="fa-thin fa-cloud-arrow-up"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (TempData["err_client_filepath"] != null)
                         {
-                            <span class="text-danger d-block">
-                                @TempData["err_client_thumbnail"]
-                            </span>
+                            <div class="invalid-feedback" style="display: block;">
+                                @TempData["err_client_filepath"]
+                            </div>
                         }
                     </div>
                 </div>
@@ -149,6 +174,8 @@
 @section js{
     <script src="~/assets/plugins/moment-js/moment.js"></script>
     <script src="~/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="~/assets/plugins/ckfinder/ckfinder.js"></script>
+    <script src="~/assets/plugins/buu-upload-image/main.js"></script>
 
     <script>
         $('#id_4').datetimepicker({
@@ -168,6 +195,10 @@
                 clear: "fa-light fa-trash-can",
             },
         });
+
+        $(function () {
+            buuUploadImage(false, 1, 'col-12');
+        })
     </script>
 }
 

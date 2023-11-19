@@ -201,7 +201,13 @@ namespace MaverikStudio.Controllers
             if (Session["user_id"] != null)
             {
                 var brand = db.brands.Find(id);
+                int quantity = brand.products.Count();
 
+                if (quantity > 0)
+                {
+                    TempData["err"] = $"Thương hiệu này có {quantity} sản phẩm nên không thể xóa";
+                    return RedirectToAction("Index");
+                }
                 db.brands.Remove(brand);
                 db.SaveChanges();
 

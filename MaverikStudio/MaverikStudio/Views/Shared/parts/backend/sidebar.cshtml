@@ -2,7 +2,7 @@
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="@Url.Action("HomePage", "FrontEnd")" target="_blank" class="brand-link">
         <img src="~/assets/plugins/admin-lte-3/dist/img/363365562_868881658095519_5183610078985921017_n.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Maverik Studio</span>
     </a>
@@ -11,11 +11,17 @@
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="@(Session["user_thumbnail"] != null ? Session["user_thumbnail"] : "")" class="img-circle elevation-2" alt="User Image">
+            <div class="image" style="width: 45px; border-radius: 50%;">
+                <div style="padding-bottom: 100%;
+                        background-image: url('@(Session["user_thumbnail"] != null ? Session["user_thumbnail"] : "")');
+                        background-size: cover;
+                        background-position: center;
+                        border-radius: 50%;
+                        box-shadow: 0 10px 20px rgba(0,0,0,.19),0 6px 6px rgba(0,0,0,.23) !important;
+                "></div>
             </div>
             <div class="info">
-                <a href="#" class="d-block">@(Session["user_name"] != null ? Session["user_name"] : "")</a>
+                <a href="@Url.Action("UserProfile", "User")" class="d-block">@(Session["user_name"] != null ? Session["user_name"] : "")</a>
             </div>
         </div>
 
@@ -35,7 +41,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="@Url.Action("Index", "DashBoard")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/dashboard/index") ? "active" : "")">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -46,8 +52,8 @@
                 </li>
 
                 @*User*@
-                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/user") ? "menu-open" : "")">
-                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/user") ? "active" : "")">
+                <li class="nav-item @(Request.Url.PathAndQuery.ToLower().StartsWith("/user") && !Request.Url.PathAndQuery.ToLower().Equals("/user/userprofile") ? "menu-open" : "")">
+                    <a href="#" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/user") && !Request.Url.PathAndQuery.ToLower().Equals("/user/userprofile") ? "active" : "")">
                         <i class="nav-icon fa-light fa-user"></i>
                         <p>
                             User

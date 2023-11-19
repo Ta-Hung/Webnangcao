@@ -22,18 +22,38 @@ $(function() {
         }
     })
 
-    $('.btn-addcart.button-dark.them').click(function() {
-        let id = $('h1[data-id]').data('id');
-        let name = $('h1[data-id]').data('name');
-        let price = $('h1[data-id]').data('price');
-        let size_id = $('.products__detail-content-right-size-watch-element.selected').data('id');
-        let size = $('.products__detail-content-right-size-watch-element.selected').data('size');
-        let quantity = $('input.quantity-value').val()
-        let image = $('[url-image-pc]').attr('url-image-pc');
+    $('.btn-addcart.button-dark.them').click(function () {
+        $.ajax({
+            url: '/FrontEnd/CheckQuantity',
+            method: 'GET',
+            data: {
+                id: $('h1[data-id]').data('id'),
+                size_id: $('.products__detail-content-right-size-watch-element.selected').data('id'),
+                quantity: $('input.quantity-value').val()
+            },
+            success: function (data) {
+                if (data.check == "true") {
+                    let id = $('h1[data-id]').data('id');
+                    let name = $('h1[data-id]').data('name');
+                    let price = $('h1[data-id]').data('price');
+                    let size_id = $('.products__detail-content-right-size-watch-element.selected').data('id');
+                    let size = $('.products__detail-content-right-size-watch-element.selected').data('size');
+                    let quantity = $('input.quantity-value').val()
+                    let image = $('[url-image-pc]').attr('url-image-pc');
 
-        removeFromCart(id,size_id);
-        addToCart(id,size_id,size,name,price,quantity,image);
-        showCart();
+                    removeFromCart(id, size_id);
+                    addToCart(id, size_id, size, name, price, quantity, image);
+                    showCart();
+
+                    iconCart.click();
+                } else {
+                    alert("So luong ton kho khong du");
+                }
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
     })
 })
 

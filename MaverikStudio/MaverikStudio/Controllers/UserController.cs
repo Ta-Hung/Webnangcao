@@ -138,17 +138,9 @@ namespace MaverikStudio.Controllers
                 }
                 if (Validate(id))
                 {
-                    var fImage = Request.Files["thumbnail"];
+                    string[] filePathArr = Request.Form.GetValues("filepath[]");
 
-                    if (fImage != null && fImage.ContentLength > 0)
-                    {
-                        string fileName = Path.GetFileName(fImage.FileName);
-                        string fileExtension = Path.GetExtension(fileName);
-                        string uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-                        string folder = Server.MapPath("~/assets/uploads/" + uniqueFileName);
-                        fImage.SaveAs(folder);
-                        user.thumbnail = "/assets/uploads/" + uniqueFileName;
-                    }
+                    user.thumbnail = filePathArr[0];
 
                     user.name = Request.Form["name"];
                     user.gender = Request.Form["gender"];
@@ -169,6 +161,7 @@ namespace MaverikStudio.Controllers
                 }
 
                 TempData["name"] = Request.Form["name"];
+                TempData["filepath"] = Request.Form.GetValues("filepath[]");
                 TempData["gender"] = Request.Form["gender"];
                 TempData["address"] = Request.Form["address"];
                 TempData["email"] = Request.Form["email"];
@@ -202,37 +195,30 @@ namespace MaverikStudio.Controllers
                 if (Validate())
                 {
                     user user = new user();
-                    var fImage = Request.Files["thumbnail"];
+                    string[] filePathArr = Request.Form.GetValues("filepath[]");
 
-                    if (fImage != null && fImage.ContentLength > 0)
-                    {
-                        string fileName = Path.GetFileName(fImage.FileName);
-                        string fileExtension = Path.GetExtension(fileName);
-                        string uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-                        string folder = Server.MapPath("~/assets/uploads/" + uniqueFileName);
-                        fImage.SaveAs(folder);
-                        user.thumbnail = "/assets/uploads/" + uniqueFileName;
-                        user.name = Request.Form["name"];
-                        user.gender = Request.Form["gender"];
-                        user.address = Request.Form["address"];
-                        user.email = Request.Form["email"];
-                        user.phone_number = Request.Form["phone_number"];
-                        user.password = MaverikStudio.Helpers.HelperMD5.GetMD5(Request.Form["password"]);
-                        user.salary = double.Parse(Request.Form["salary"]);
-                        user.date_of_birth = DateTime.Parse(Request.Form["date_of_birth"]);
-                        user.created_at = DateTime.Now;
-                        user.updated_at = DateTime.Now;
-                        user.group_id = int.Parse(Request.Form["group_id"]);
-                        db.users.Add(user);
-                        db.SaveChanges();
+                    user.thumbnail = filePathArr[0];
+                    user.name = Request.Form["name"];
+                    user.gender = Request.Form["gender"];
+                    user.address = Request.Form["address"];
+                    user.email = Request.Form["email"];
+                    user.phone_number = Request.Form["phone_number"];
+                    user.password = MaverikStudio.Helpers.HelperMD5.GetMD5(Request.Form["password"]);
+                    user.salary = double.Parse(Request.Form["salary"]);
+                    user.date_of_birth = DateTime.Parse(Request.Form["date_of_birth"]);
+                    user.created_at = DateTime.Now;
+                    user.updated_at = DateTime.Now;
+                    user.group_id = int.Parse(Request.Form["group_id"]);
+                    db.users.Add(user);
+                    db.SaveChanges();
 
-                        TempData["msg"] = "Thêm thành công";
-                    }
+                    TempData["msg"] = "Thêm thành công";
 
                     return RedirectToAction("Index");
                 }
 
                 TempData["name"] = Request.Form["name"];
+                TempData["filepath"] = Request.Form.GetValues("filepath[]");
                 TempData["gender"] = Request.Form["gender"];
                 TempData["address"] = Request.Form["address"];
                 TempData["email"] = Request.Form["email"];
@@ -264,6 +250,64 @@ namespace MaverikStudio.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+        [HttpGet]
+        public ActionResult UserProfile()
+        {
+            if (Session["user_id"] != null)
+            {
+                ViewBag.title = "Profile user";
+                int idUser = (int)Session["user_id"];
+                return View(db.users.FirstOrDefault(u => u.id == idUser));
+            }
+            return RedirectToAction("Login", "Auth");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult HandleUserProfile(int id)
+        {
+            if (Session["user_id"] != null)
+            {
+                user user = db.users.FirstOrDefault(u => u.id == id);
+                if(user == null)
+                {
+                    return RedirectToAction("UserProfile", "User");
+                }
+                if (ValidateProfile(id))
+                {
+                    string[] filePathArr = Request.Form.GetValues("filepath[]");
+
+                    user.thumbnail = filePathArr[0];
+
+                    user.name = Request.Form["name"];
+                    user.gender = Request.Form["gender"];
+                    user.address = Request.Form["address"];
+                    user.phone_number = Request.Form["phone_number"];
+                    if (Request.Form["password"] != null && !Request.Form["password"].Equals(""))
+                    {
+                        user.password = MaverikStudio.Helpers.HelperMD5.GetMD5(Request.Form["password"]);
+                    }
+                    user.date_of_birth = DateTime.Parse(Request.Form["date_of_birth"]);
+                    user.updated_at = DateTime.Now;
+                    db.SaveChanges();
+
+                    Session["user_name"] = user.name;
+                    Session["user_thumbnail"] = user.thumbnail;
+                    TempData["msg"] = "Cập nhật thành công";
+                    return RedirectToAction("UserProfile", "User");
+                }
+
+                TempData["name"] = Request.Form["name"];
+                TempData["filepath"] = Request.Form.GetValues("filepath[]");
+                TempData["gender"] = Request.Form["gender"];
+                TempData["address"] = Request.Form["address"];
+                TempData["phone_number"] = Request.Form["phone_number"];
+                TempData["date_of_birth"] = Request.Form["date_of_birth"];
+                return RedirectToAction("UserProfile", "User");
+
+            }
+            return RedirectToAction("Login", "Auth");
+        }
 
         public bool Validate(int id = 0)
         {
@@ -279,21 +323,16 @@ namespace MaverikStudio.Controllers
                 TempData["err_user_address"] = "Địa chỉ người dùng không được để trống";
                 check = false;
             }
-            if (Request.Files["thumbnail"].ContentLength == 0 && id == 0)
+            string[] filePathArr = Request.Form.GetValues("filepath[]");
+            if (filePathArr == null)
             {
-                TempData["err_user_thumbnail"] = "Ảnh người dùng không được để trống";
+                TempData["err_user_filepath"] = "Ảnh người dùng không được để trống";
                 check = false;
             }
-            else if (Request.Files["thumbnail"] != null && Request.Files["thumbnail"].ContentLength > 0)
+            else if (filePathArr.Length > 1)
             {
-                string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };
-                string fileExtension = Path.GetExtension(Request.Files["thumbnail"].FileName).ToLower();
-
-                if (!allowedExtensions.Contains(fileExtension))
-                {
-                    TempData["err_user_thumbnail"] = "Ảnh không đúng định dạng";
-                    check = false;
-                }
+                TempData["err_user_filepath"] = "Ảnh người dùng chỉ có 1";
+                check = false;
             }
             string[] genders = { "Nam", "Nữ", "Khác" };
             if (Request.Form["gender"] == "" || Request.Form["gender"] == null)
@@ -362,6 +401,80 @@ namespace MaverikStudio.Controllers
             if (Request.Form["group_id"] == "" || groupId <= 0 || db.groups.Find(groupId) == null)
             {
                 TempData["err_user_group_id"] = "Nhóm không được để trống";
+                check = false;
+            }
+            return check;
+        }
+
+        public bool ValidateProfile(int id = 0)
+        {
+            bool check = true;
+            string test = Request.Form["name"];
+            if (Request.Form["name"] == "")
+            {
+                TempData["err_user_name"] = "Tên người dùng không được để trống";
+                check = false;
+            }
+            if (Request.Form["address"] == "")
+            {
+                TempData["err_user_address"] = "Địa chỉ người dùng không được để trống";
+                check = false;
+            }
+            string[] filePathArr = Request.Form.GetValues("filepath[]");
+            if (filePathArr == null)
+            {
+                TempData["err_user_filepath"] = "Ảnh người dùng không được để trống";
+                check = false;
+            }
+            else if (filePathArr.Length > 1)
+            {
+                TempData["err_user_filepath"] = "Ảnh người dùng chỉ có 1";
+                check = false;
+            }
+            string[] genders = { "Nam", "Nữ", "Khác" };
+            if (Request.Form["gender"] == "" || Request.Form["gender"] == null)
+            {
+                TempData["err_user_gender"] = "Giới tính không được để trống";
+                check = false;
+            }
+            else if (!genders.Contains(Request.Form["gender"]))
+            {
+                TempData["err_user_gender"] = "Giới tính phải là nam, nữ hoặc khác";
+                check = false;
+            }
+            if (Request.Form["phone_number"] == "")
+            {
+                TempData["err_user_phone_number"] = "Số điện thoại không được để trống";
+                check = false;
+            }
+            else if (!Regex.IsMatch(Request.Form["phone_number"], @"^0[1345789][0-9]{8}$"))
+            {
+                TempData["err_user_phone_number"] = "Số điện thoại đúng định dạng";
+                check = false;
+            }
+            if (Request.Form["password"] == "" && id == 0)
+            {
+                TempData["err_user_password"] = "Mật khẩu không được để trống";
+                check = false;
+            }
+            else if(Request.Form["password"] != Request.Form["confirm_password"])
+            {
+                TempData["err_user_confirm_password"] = "Mật khẩu không khớp";
+                check = false;
+            }
+            if (!MaverikStudio.Helpers.HelperMD5.GetMD5(Request.Form["password_old"]).Equals(db.users.FirstOrDefault(u => u.id == id).password))
+            {
+                TempData["err_user_password_old"] = "Mật khẩu không chính xác";
+                check = false;
+            }
+            if (Request.Form["date_of_birth"] == "")
+            {
+                TempData["err_user_date_of_birth"] = "Ngày sinh không được để trống";
+                check = false;
+            }
+            else if (!DateTime.TryParse(Request.Form["date_of_birth"], out DateTime result))
+            {
+                TempData["err_user_date_of_birth"] = "Ngày sinh không đúng định dạng";
                 check = false;
             }
             return check;

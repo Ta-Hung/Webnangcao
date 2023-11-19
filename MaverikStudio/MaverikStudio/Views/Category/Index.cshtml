@@ -52,7 +52,7 @@
                     {
                         <tr>
                             <td>@item.id</td>
-                            <td><a href="#" data-id="@item.id">@item.name</a></td>
+                            <td><a href="@Url.Action("Collection", "FrontEnd", new {id = item.id})" target="_blank" data-id="@item.id">@item.name</a></td>
                             <td>@item.created_at</td>
                             <td>@item.updated_at</td>
                             <td>
@@ -90,12 +90,6 @@
 </div>
 
 @Html.Partial("~/Views/Shared/parts/backend/form-delete.cshtml")
-
-@section see_detail{
-    <div class="detail__container">
-
-    </div>
-}
 
 @section css{
     <link rel="stylesheet" href="~/assets/plugins/datatable/datatable-bs4.css">
@@ -146,68 +140,6 @@
             padding: 5px;
             cursor: pointer;
         }
-
-        .detail__container {
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, .4);
-            position: fixed;
-            z-index: 9999;
-            display: none;
-            overflow: hidden;
-        }
-
-        .detail__wrapper {
-            background-color: #fff;
-            width: 32rem;
-            max-width: 98%;
-            max-height: 85%;
-            overflow-y: auto;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            border-radius: 5px;
-            animation: showPopup .3s ease 0s;
-        }
-
-        .detail__title {
-            color: #333;
-        }
-
-        .detail__wrapper p {
-            color: #333;
-        }
-
-        .detail__wrapper i {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 24px;
-            color: #333;
-            cursor: pointer;
-            z-index: 99999;
-        }
-
-        @@keyframes showPopup {
-            0% {
-                transform: translate(-50%,-50%) scale(0.7);
-            }
-
-            45% {
-                transform: translate(-50%,-50%) scale(1.05);
-            }
-
-            80% {
-                transform: translate(-50%,-50%) scale(0.95);
-            }
-
-            100% {
-                transform: translate(-50%,-50%) scale(1);
-            }
-        }
     </style>
 }
 
@@ -227,16 +159,9 @@
 
         $(function() {
             let formDelete = $('#buu-form-delete');
-            let viewDetail = $('.detail__container');
-            viewDetail.click(function() {
-                viewDetail.css('background', 'transparent');
-                $('.detail__wrapper').animate({ opacity: 0, height: 0, width: 0}, 200);
-                viewDetail.delay(200).hide(0);
-            });
 
             $('#table-category').click(function(e) {
                 let btnDelete = e.target.closest('.buu-action-delete');
-                let btnSee = e.target;
                 if(btnDelete) {
                     e.preventDefault();
                     Swal.fire({
@@ -254,46 +179,6 @@
                             formDelete.submit();
                         }
                     })
-                } else if(btnSee.hasAttribute('data-id')) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: '@Url.Action("SeeDetail", "category")' + "/" + btnSee.getAttribute('data-id'),
-                        method: 'GET',
-                        success: function(response) {
-                            viewDetail.html(`
-                                <div class="detail__wrapper p-4">
-                                    <i class="fa-regular fa-xmark"></i>
-                                    <div class="row">
-                                        <h3 class="detail__title col-12 text-center font-weight-bold mb-4">Chi tiết chuyên mục</h3>
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <p class="col-12">Mã chuyên mục: ${response.id}</p>
-                                                <p class="col-12">Tên: ${response.name}</p>
-                                                <p class="col-12">Thời gian tạo: ${response.created_at}</p>
-                                                <p class="col-12">Thời gian cập nhật: ${response.updated_at}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `);
-
-                            $('.detail__wrapper i').click(function() {
-                                e.stopPropagation();
-                                viewDetail.css('background', 'transparent');
-                                $('.detail__wrapper').animate({ opacity: 0, height: 0, width: 0}, 200);
-                                viewDetail.delay(200).hide(0);
-                            });
-
-                            $('.detail__wrapper').click(function(e) {
-                                e.stopPropagation();
-                            });
-
-                            viewDetail.css('background', 'rgba(0,0,0,.4)').show();
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Lỗi khi gửi yêu cầu AJAX:', status, error);
-                        }
-                    });
                 }
             });
         })
@@ -310,5 +195,14 @@
         </script>
     }
 
-
+    @if (TempData["err"] != null)
+    {
+        <script>
+        Swal.fire(
+            "@TempData["err"]",
+            "",
+            "error"
+        );
+        </script>
+    }
 } 

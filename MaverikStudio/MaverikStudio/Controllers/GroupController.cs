@@ -176,6 +176,12 @@ namespace MaverikStudio.Controllers
             {
                 var group = db.groups.Find(id);
 
+                int quantity = group.users.Count();
+
+                if(quantity > 0) {
+                    TempData["err"] = $"Trong nhóm còn {quantity} người dùng nên không thể xóa";
+                    return RedirectToAction("Index");
+                }
                 db.groups.Remove(group);
                 db.SaveChanges();
 

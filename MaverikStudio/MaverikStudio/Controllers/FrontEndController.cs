@@ -33,11 +33,119 @@ namespace MaverikStudio.Controllers
         {
             category currentCategory = db.categories.FirstOrDefault(m => m.id == id);
             ViewBag.title = currentCategory.name;
+            ViewBag.idCategory = currentCategory.id;
+
+            int page = 1;
+
+            if (Request.QueryString["page"] != null)
+            {
+                int.TryParse(Request.QueryString["page"], out page);
+            }
+
+            if (page <= 0) page = 1;
+
+            int countPage = 16;
 
             var products = db.products
                 .Where(m => m.category_id == currentCategory.id)
                 .OrderByDescending(u => u.created_at)
+                .Skip((page - 1) * countPage)
+                .Take(countPage)
                 .ToList();
+
+            int totalPage = (int)Math.Ceiling((double)db.products.Where(m => m.category_id == currentCategory.id).ToList().Count / countPage);
+
+            TempData["product_page"] = page;
+            TempData["product_count_page"] = countPage;
+            TempData["product_total_page"] = totalPage;
+
+            return View(products);
+        }
+
+        [HttpGet]
+        public ActionResult Search(string search)
+        {
+            var products = db.products.AsNoTracking().Where(p => p.name.Contains(search))
+                .OrderByDescending(p => p.created_at)
+                .Skip(0)
+                .Take(5)
+                .Select(p => new
+                {
+                    p.id,
+                    p.name,
+                    price = p.price * (1 - p.sale / 100),
+                    image = p.product_images.FirstOrDefault().image,
+                }).ToList();
+
+            List<object> data = new List<object>();
+
+            foreach(var item in products)
+            {
+                data.Add(new
+                {
+                    id = item.id,
+                    name = item.name,
+                    price = string.Format("{0:#,##0}đ", item.price),
+                    image = item.image
+                });
+            }
+
+            data.Add(new
+            {
+                total = db.products.Where(p => p.name.Contains(search)).ToList().Count
+            });
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult CheckQuantity(int id, int size_id, int quantity)
+        {
+            var product_detail = db.product_details.Where(p => p.product_id == id && p.size_id == size_id && p.quantity_ready >= quantity).FirstOrDefault();
+
+            object data = new
+            {
+                check = "true"
+            };
+
+            if(product_detail == null)
+            {
+                data = new
+                {
+                    check = "false"
+                };
+            }
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult ResultAll(string search)
+        {
+            ViewBag.search = search;
+            int page = 1;
+
+            if (Request.QueryString["page"] != null)
+            {
+                int.TryParse(Request.QueryString["page"], out page);
+            }
+
+            if (page <= 0) page = 1;
+
+            int countPage = 8;
+
+            var products = db.products
+                .Where(m => m.name.Contains(search))
+                .OrderByDescending(u => u.created_at)
+                .Skip((page - 1) * countPage)
+                .Take(countPage)
+                .ToList();
+
+            int totalPage = (int)Math.Ceiling((double)db.products.Where(m => m.name.Contains(search)).ToList().Count / countPage);
+
+            TempData["product_page"] = page;
+            TempData["product_count_page"] = countPage;
+            TempData["product_total_page"] = totalPage;
 
             return View(products);
         }
@@ -112,7 +220,7 @@ namespace MaverikStudio.Controllers
                                 product product = db.products.FirstOrDefault(m => m.id == itemCart.id);
                                 size size = db.sizes.FirstOrDefault(m => m.id == itemCart.size_id);
 
-                                if(product != null && size != null)
+                                if (product != null && size != null)
                                 {
                                     order_details order_Details = new order_details();
                                     order_Details.order_id = order.id;

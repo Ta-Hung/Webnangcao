@@ -53,24 +53,13 @@
                                         <p class="titlebox">Tìm kiếm</p>
                                         <div class="header__middle-search-box">
                                             <form action="">
-                                                <input type="text" name="search" autocomplete="off" class="header__middle-search-box-input" placeholder="Tìm kiếm sản phẩm...">
+                                                <input id="bigSearch" type="text" name="search" autocomplete="off" class="header__middle-search-box-input" placeholder="Tìm kiếm sản phẩm...">
                                                 <button type="submit" class="header__middle-search-box-submit">
                                                     <i class="fa-solid fa-magnifying-glass"></i>
                                                 </button>
                                             </form>
-                                            <div class="header__middle-search-box-result">
-                                                <div class="item-result">
-                                                    <div class="thumbs">
-                                                        <a href="#" title="MAVERIK FOOTBALL MESH JERSEY ( BLACK )" style="background-image: url('/assets/frontend/images/362263141_865388928444792_4057214548278294530_n_e7886f713cc14c0e9eadff0d394b8fd4_master.webp');"></a>
-                                                    </div>
-                                                    <div class="title">
-                                                        <a title="MAVERIK FOOTBALL MESH JERSEY ( BLACK )" href="#">MAVERIK FOOTBALL MESH JERSEY ( BLACK )</a>
-                                                        <p class="f-initial">500,000₫</p>
-                                                    </div>
-                                                </div>
-                                                <div class="resultsMore">
-                                                    <a href="#">Xem thêm 94 sản phẩm</a>
-                                                </div>
+                                            <div id="resultBigSearch" class="header__middle-search-box-result" style="">
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +119,7 @@
                                                 <div class="container-user-sub">
                                                     <p>
                                                         Khách hàng mới?
-                                                        <a href="#">Tạo tài khoản</a>
+                                                        <a href="@Url.Action("ClientRegister", "Auth")">Tạo tài khoản</a>
                                                     </p>
                                                     <p>
                                                         Quên mật khẩu?
@@ -197,11 +186,22 @@
             </div>
         </div>
         <div class="header__search">
-            <div class="header__search-wrapper grid wide">
+            <div class="header__search-wrapper grid wide" style="position: relative;">
                 <form action="" method="">
-                    <input type="text" name="search" autocomplete="off" class="header__search-wrapper-child" placeholder="Tìm kiếm sản phẩm...">
+                    <input id="mobileSearch" type="text" name="search" autocomplete="off" class="header__search-wrapper-child" placeholder="Tìm kiếm sản phẩm...">
                     <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <style>
+                        #resultMobileSearch {
+                            position: absolute;
+                            top: 38px;
+                            z-index: 999999999999;
+                        }
+                    </style>
+                    <div id="resultMobileSearch" class="header__middle-search-box-result" style="">
+
+                    </div>
                 </form>
+                
             </div>
         </div>
     </div>

@@ -67,7 +67,7 @@ namespace MaverikStudio.Controllers
             {
                 return View();
             }
-            return RedirectToAction("HomePage", "FrontEnd");
+            return RedirectToAction("ClientProfile", "Client");
         }
 
         [HttpPost]
@@ -89,7 +89,7 @@ namespace MaverikStudio.Controllers
                     Session["client_address"] = data.FirstOrDefault().address;
                     Session["client_phone_number"] = data.FirstOrDefault().phone_number;
                     Session["client_date_of_birth"] = data.FirstOrDefault().date_of_birth;
-                    return RedirectToAction("HomePage", "FrontEnd");
+                    return RedirectToAction("ClientProfile", "Client");
                 }
                 else
                 {
@@ -142,7 +142,15 @@ namespace MaverikStudio.Controllers
                 _db.clients.Add(client);
                 _db.SaveChanges();
 
-                return RedirectToAction("ClientProfile", "Auth");
+                Session["client_id"] = client.id;
+                Session["client_name"] = client.name;
+                Session["client_email"] = client.email;
+                Session["client_thumbnail"] = client.thumbnail;
+                Session["client_gender"] = client.gender;
+                Session["client_address"] = client.address;
+                Session["client_phone_number"] = client.phone_number;
+                Session["client_date_of_birth"] = client.date_of_birth;
+                return RedirectToAction("ClientProfile", "Client");
             }
 
             TempData["name"] = Request.Form["name"];

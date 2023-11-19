@@ -198,7 +198,13 @@ namespace MaverikStudio.Controllers
             if (Session["user_id"] != null)
             {
                 var size = db.sizes.Find(id);
+                int quantity = size.product_details.Count();
 
+                if(quantity > 0)
+                {
+                    TempData["err"] = $"Còn {quantity} chi tiết sản phẩm dùng size này";
+                    return RedirectToAction("Index");
+                }
                 db.sizes.Remove(size);
                 db.SaveChanges();
 
