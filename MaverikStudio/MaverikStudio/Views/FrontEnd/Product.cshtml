@@ -122,7 +122,7 @@
                         <div class="products__detail-content-right-size-watch">
                             @for (int i = 0; i < ViewBag.currentProductDetails.Count; i++)
                             {
-                                <div data-id="@ViewBag.currentProductDetails[i].size_id" data-size="@ViewBag.currentProductDetails[i].size.size1" class="products__detail-content-right-size-watch-element @(i == 0 ? "selected" : "")">
+                                <div data-id="@ViewBag.currentProductDetails[i].size_id" data-size="@ViewBag.currentProductDetails[i].size.size1" data-size_id="@ViewBag.currentProductDetails[i].size.id" class="products__detail-content-right-size-watch-element @(i == 0 ? "selected" : "")">
                                     <span>@ViewBag.currentProductDetails[i].size.size1</span>
                                 </div>
                             }
@@ -136,8 +136,18 @@
                             <input type="button" value="+" class="qty-btn cong">
                         </div>
                         <div class="products__detail-content-right-action-addcart">
-                            <button class="btn-addcart button-dark them"><span>Thêm vào giỏ</span></button>
-                            <a style="text-decoration: none;" href="@Url.Action("Pay", "FrontEnd")" class="btn-addcart button-dark"><span>Mua ngay</span></a>
+                            <style>
+                                .abc_show {
+                                    display: block !important;
+                                }
+
+                                .abc_hide {
+                                    display: none !important;
+                                }
+                            </style>
+                            <button id="hethang" class="btn-addcart button-dark abc_hide"><span>Hết hàng</span></button>
+                            <button id="themgio" class="btn-addcart button-dark them abc_show"><span>Thêm vào giỏ</span></button>
+                            <a id="muangay" style="text-decoration: none;" href="@Url.Action("Pay", "FrontEnd")" class="btn-addcart button-dark abc_show"><span>Mua ngay</span></a>
                         </div>
                     </div>
 

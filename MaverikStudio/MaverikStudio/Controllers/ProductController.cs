@@ -305,25 +305,37 @@ namespace MaverikStudio.Controllers
                 TempData["err_product_filepath"] = "Ảnh sản phẩm phải có ít nhất 2 ảnh";
                 check = false;
             }
+            double price = 0;
             if (Request.Form["price"] == "")
             {
                 TempData["err_product_price"] = "Giá bán không được để trống";
                 check = false;
             }
-            else if (!double.TryParse(Request.Form["price"], out double result))
+            else if (!double.TryParse(Request.Form["price"], out price))
             {
                 TempData["err_product_price"] = "Giá bán phải là số thực";
                 check = false;
             }
+            else if(price < 0)
+            {
+                TempData["err_product_price"] = "Giá bán phải dương";
+                check = false;
+            }
 
+            double priceOrigin = 0;
             if (Request.Form["price_origin"] == "")
             {
                 TempData["err_product_price_origin"] = "Giá gốc không được để trống";
                 check = false;
             }
-            else if (!double.TryParse(Request.Form["price_origin"], out double result))
+            else if (!double.TryParse(Request.Form["price_origin"], out priceOrigin))
             {
                 TempData["err_product_price_origin"] = "Giá gốc phải là số thực";
+                check = false;
+            }
+            else if (priceOrigin < 0)
+            {
+                TempData["err_product_price_origin"] = "Giá gốc phải dương";
                 check = false;
             }
 

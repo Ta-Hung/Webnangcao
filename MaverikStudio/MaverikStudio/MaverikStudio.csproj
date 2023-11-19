@@ -5692,6 +5692,7 @@
     <Content Include="Views\FrontEnd\ResultAll.cshtml" />
     <Content Include="Views\User\UserProfile.cshtml" />
     <Content Include="Views\FrontEnd\NewArrivals.cshtml" />
+    <Content Include="Views\FrontEnd\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

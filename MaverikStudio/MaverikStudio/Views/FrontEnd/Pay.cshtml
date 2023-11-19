@@ -88,7 +88,7 @@
             <p style="margin: 0; color: #4b4b4b;">${item.name}</p>
             <span style="color: #969696; font-size: 12px;">${item.size}</span>
         </div>
-        <span style="">${formatCurrency(item.price)}</span>
+        <span style="">${formatCurrency(item.price * item.quantity)}</span>
     </div>
 </div>`);
         }

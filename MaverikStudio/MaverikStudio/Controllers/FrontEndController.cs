@@ -97,6 +97,69 @@ namespace MaverikStudio.Controllers
         }
 
         [HttpGet]
+        public ActionResult Sale()
+        {
+            ViewBag.title = "Sale";
+
+            int page = 1;
+
+            if (Request.QueryString["page"] != null)
+            {
+                int.TryParse(Request.QueryString["page"], out page);
+            }
+
+            if (page <= 0) page = 1;
+
+            int countPage = 16;
+
+            var products = db.products
+                .Where(m => m.sale > 0)
+                .OrderByDescending(u => u.created_at)
+                .Skip((page - 1) * countPage)
+                .Take(countPage)
+                .ToList();
+
+            int totalPage = (int)Math.Ceiling((double)db.products.Where(m => m.sale > 0).ToList().Count / countPage);
+
+            TempData["product_page"] = page;
+            TempData["product_count_page"] = countPage;
+            TempData["product_total_page"] = totalPage;
+
+            return View("NewArrivals",products);
+        }
+
+        [HttpGet]
+        public ActionResult SpringSummer()
+        {
+            ViewBag.title = "Spring Summer " + DateTime.Now.Year.ToString();
+
+            int page = 1;
+
+            if (Request.QueryString["page"] != null)
+            {
+                int.TryParse(Request.QueryString["page"], out page);
+            }
+
+            if (page <= 0) page = 1;
+
+            int countPage = 16;
+
+            var products = db.products
+                .OrderByDescending(u => u.created_at)
+                .Skip((page - 1) * countPage)
+                .Take(countPage)
+                .ToList();
+
+            int totalPage = (int)Math.Ceiling((double)db.products.ToList().Count / countPage);
+
+            TempData["product_page"] = page;
+            TempData["product_count_page"] = countPage;
+            TempData["product_total_page"] = totalPage;
+
+            return View("NewArrivals", products);
+        }
+
+        [HttpGet]
         public ActionResult Search(string search)
         {
             var products = db.products.AsNoTracking().Where(p => p.name.Contains(search))
@@ -205,11 +268,32 @@ namespace MaverikStudio.Controllers
         }
 
         [HttpGet]
+        public ActionResult Cart()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult Pay()
         {
             if (Session["client_id"] != null)
             {
-                return View();
+                HttpCookie gioHangCookie = Request.Cookies["gioHangCookie"];
+                if (gioHangCookie != null && !string.IsNullOrEmpty(gioHangCookie.Value))
+                {
+                    // Giải mã giá trị cookie, nếu đó là một chuỗi JSON
+                    string gioHangValue = HttpUtility.UrlDecode(gioHangCookie.Value);
+
+                    // Bạn có thể sử dụng giá trị cookie (đã giải mã) theo nhu cầu của bạn
+                    // Ví dụ: Deserialize JSON thành một danh sách đối tượng
+                    List<MapCookieCart> gioHangItems = JsonConvert.DeserializeObject<List<MapCookieCart>>(gioHangValue);
+
+                    if (gioHangItems.Count > 0)
+                    {
+                        return View();
+                    }
+                }
+                return RedirectToAction("Cart", "FrontEnd");
             }
 
             return RedirectToAction("ClientLogin", "Auth");
@@ -283,8 +367,7 @@ namespace MaverikStudio.Controllers
                         }
                     }
 
-                    TempData["success"] = "Giỏ hàng trống";
-                    return RedirectToAction("Pay", "FrontEnd");
+                    return RedirectToAction("Cart", "FrontEnd");
                 }
                 return RedirectToAction("Pay", "FrontEnd");
             }

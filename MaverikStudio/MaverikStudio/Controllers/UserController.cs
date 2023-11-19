@@ -376,14 +376,20 @@ namespace MaverikStudio.Controllers
                 TempData["err_user_password"] = "Mật khẩu không được để trống";
                 check = false;
             }
+            double salary = 0;
             if (Request.Form["salary"] == "")
             {
                 TempData["err_user_salary"] = "Lương không được để trống";
                 check = false;
             }
-            else if (!double.TryParse(Request.Form["salary"], out double result))
+            else if (!double.TryParse(Request.Form["salary"], out salary))
             {
                 TempData["err_user_salary"] = "Lương phải là số thực";
+                check = false;
+            }
+            else if (salary < 0)
+            {
+                TempData["err_user_salary"] = "Lương phải dương";
                 check = false;
             }
             if (Request.Form["date_of_birth"] == "")
