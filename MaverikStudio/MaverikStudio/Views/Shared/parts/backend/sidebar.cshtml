@@ -43,7 +43,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="@Url.Action("Index", "DashBoard")" class="nav-link @(Request.Url.PathAndQuery.ToLower().Equals("/dashboard/index") ? "active" : "")">
+                    <a href="@Url.Action("Index", "DashBoard")" class="nav-link @(Request.Url.PathAndQuery.ToLower().StartsWith("/dashboard/index") ? "active" : "")">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard

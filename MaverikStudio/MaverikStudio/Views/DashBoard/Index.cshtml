@@ -55,4 +55,90 @@
             <a href="@Url.Action("Index", "Product")" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+
+    <div class="col-12">
+        <form action="@Url.Action("Index", "DashBoard")" method="get">
+            <label class="d-block">Doanh thu năm: </label>
+            <div class="form-group">
+                <div class="row">
+
+                    <div class="col-2">
+                        <div class="input-group date" id="id_4">
+                            <input type="text" name="year" value="@(TempData["year"] != null ? TempData["year"] : 2023)" placeholder="Ngày sinh..." class="form-control" required="">
+                            <div class="input-group-addon input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary">Thống kê</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="bg-white" style="border-radius: 4px;">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
 </div>
+
+@section css{
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <style>
+        .label-for-form label {
+            font-weight: 500 !important;
+        }
+    </style>
+}
+
+@section js{
+    <script src="~/assets/plugins/moment-js/moment.js"></script>
+    <script src="~/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="~/assets/plugins/admin-lte-3/plugins/chart.js/Chart.min.js"></script>
+
+    <script>
+        $('#id_4').datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            "format": "YYYY",
+            icons: {
+                time: "fa-light fa-timer",
+                date: "fa-solid fa-calendar-days",
+                up: "fa-regular fa-chevron-up",
+                down: "fa-regular fa-chevron-down",
+                previous: "fa-regular fa-chevron-left",
+                next: "fa-regular fa-chevron-right",
+                today: "fa-light fa-crosshairs-simple",
+                clear: "fa-light fa-trash-can",
+            },
+        });
+
+        const ctx = document.getElementById('myChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: [@ViewBag.month1, @ViewBag.month2, @ViewBag.month3, @ViewBag.month4, @ViewBag.month5, @ViewBag.month6, @ViewBag.month7, @ViewBag.month8, @ViewBag.month9, @ViewBag.month10, @ViewBag.month11, @ViewBag.month12],
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(23, 162, 184, 0.3)',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

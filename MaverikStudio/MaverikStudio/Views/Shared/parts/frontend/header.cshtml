@@ -20,14 +20,14 @@
                                 <div class="header__middle-container-left-menu-mobile-wrapper">
                                     <ul class="menu-sidebar">
                                         <li>
-                                            <a href="#">New Arrivals</a>
+                                            <a href="@Url.Action("NewArrivals", "FrontEnd")">New Arrivals</a>
                                         </li>
                                         @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).categories.ToList())
                                         {
                                             <li><a href="@Url.Action("Collection", "FrontEnd", new {id = item.id})">@item.name</a></li>
                                         }
-                                        <li><a href="#">Sale</a></li>
-                                        <li><a href="#">Accessories</a></li>
+                                        <li><a href="@Url.Action("Sale", "FrontEnd")">Sale</a></li>
+                                        <li><a href="@Url.Action("SpringSummer", "FrontEnd")">Spring Summer @DateTime.Now.Year</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -174,13 +174,13 @@
                         </a>
                     </div>
                     <ul class="header__bottom-container-wrapper-menu-list">
-                        <li><a href="#">new arrivals</a></li>
+                        <li><a href="@Url.Action("NewArrivals", "FrontEnd")">new arrivals</a></li>
                         @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).categories.ToList())
                         {
                             <li><a href="@Url.Action("Collection", "FrontEnd", new {id = item.id})">@item.name</a></li>
                         }
-                        <li><a href="#">sale</a></li>
-                        <li><a href="#">spring summer 2023</a></li>
+                        <li><a href="@Url.Action("Sale", "FrontEnd")">sale</a></li>
+                        <li><a href="@Url.Action("SpringSummer", "FrontEnd")">spring summer @DateTime.Now.Year</a></li>
                     </ul>
                 </div>
             </div>
@@ -197,11 +197,11 @@
                             z-index: 999999999999;
                         }
                     </style>
-                    <div id="resultMobileSearch" class="header__middle-search-box-result" style="">
-
-                    </div>
+                    
                 </form>
-                
+                <div id="resultMobileSearch" class="header__middle-search-box-result" style="">
+
+                </div>
             </div>
         </div>
     </div>

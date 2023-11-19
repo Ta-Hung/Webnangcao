@@ -25,14 +25,14 @@
                         <div class="container__sidebar-menu-content">
                             <ul class="menu-sidebar">
                                 <li>
-                                    <a href="#">New Arrivals</a>
+                                    <a href="@Url.Action("NewArrivals", "FrontEnd")">New Arrivals</a>
                                 </li>
                                 @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).categories.ToList())
                                 {
                                     <li><a href="@Url.Action("Collection", "FrontEnd", new {id = item.id})">@item.name</a></li>
                                 }
-                                <li><a href="#">Sale</a></li>
-                                <li><a href="#">Accessories</a></li>
+                                <li><a href="@Url.Action("Sale", "FrontEnd")">Sale</a></li>
+                                <li><a href="@Url.Action("SpringSummer", "FrontEnd")">Spring Summer @DateTime.Now.Year</a></li>
                             </ul>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                         <option value="">Bán chạy nhất</option>
                     </select>
                 </div>
-                <div class="row">
+                <div class="row" style="width: 100%; justify-content: center;">
                     @foreach (var product in Model)
                     {
                         <div class="container__content-product col l-3 m-3 c-6">

@@ -63,6 +63,40 @@ namespace MaverikStudio.Controllers
         }
 
         [HttpGet]
+        public ActionResult NewArrivals()
+        {
+            ViewBag.title = "New Arrivals";
+
+            int page = 1;
+
+            if (Request.QueryString["page"] != null)
+            {
+                int.TryParse(Request.QueryString["page"], out page);
+            }
+
+            if (page <= 0) page = 1;
+
+            int countPage = 16;
+
+            DateTime threeMonthsAgo = DateTime.Now.AddMonths(-3);
+
+            var products = db.products
+                .Where(m => m.created_at >= threeMonthsAgo)
+                .OrderByDescending(u => u.created_at)
+                .Skip((page - 1) * countPage)
+                .Take(countPage)
+                .ToList();
+
+            int totalPage = (int)Math.Ceiling((double)db.products.Where(m => m.created_at >= threeMonthsAgo).ToList().Count / countPage);
+
+            TempData["product_page"] = page;
+            TempData["product_count_page"] = countPage;
+            TempData["product_total_page"] = totalPage;
+
+            return View(products);
+        }
+
+        [HttpGet]
         public ActionResult Search(string search)
         {
             var products = db.products.AsNoTracking().Where(p => p.name.Contains(search))

@@ -48,7 +48,7 @@
                 </div>
                 <!-- Phân trang ở đây -->
                 <form action="@Url.Action("Collection", "FrontEnd", new {id = ViewBag.idCategory})" method="get" id="list_product">
-                    <div class="row">
+                    <div class="row" style="width: 100%; justify-content: center;">
                         <div class="col l-12" style="display: flex; justify-content: center">
                             <input type="submit" style="padding: 10px 15px; font-weight: 700; background-color: transparent; border: unset; font-size: 18px; cursor: pointer;" data-page="1" value="<<" @((int)TempData["product_page"] <= 1 ? "disabled" : "") />
 
