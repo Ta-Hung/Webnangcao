@@ -49,7 +49,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
                 int totalPage = (int)Math.Ceiling((double)db.clients.Where(u => u.name.Contains(search)).ToList().Count / countPage);
-
+                if (totalPage == 0) totalPage = 1;
                 TempData["client_page"] = page;
                 TempData["client_count_page"] = countPage;
                 TempData["client_total_page"] = totalPage;
@@ -252,6 +252,11 @@ namespace MaverikStudio.Controllers
             if (Request.Form["name"] == "")
             {
                 TempData["err_client_name"] = "Tên khách hàng không được để trống";
+                check = false;
+            }
+            else if(test.Length > 50)
+            {
+                TempData["err_client_name"] = "Tên khách hàng tối đa 50 ký tự";
                 check = false;
             }
             if (Request.Form["address"] == "")

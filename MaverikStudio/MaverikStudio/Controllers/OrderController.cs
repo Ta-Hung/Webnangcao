@@ -53,7 +53,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
                 int totalPage = (int)Math.Ceiling((double)db.orders.Where(u => (filter_status == 0 || u.status_id == filter_status)).ToList().Count / countPage);
-
+                if (totalPage == 0) totalPage = 1;
                 TempData["order_page"] = page;
                 TempData["order_count_page"] = countPage;
                 TempData["order_total_page"] = totalPage;

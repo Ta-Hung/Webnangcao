@@ -48,7 +48,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
                 int totalPage = (int)Math.Ceiling((double)db.categories.Where(u => u.name.Contains(search)).ToList().Count / countPage);
-
+                if (totalPage == 0) totalPage = 1;
                 TempData["category_page"] = page;
                 TempData["category_count_page"] = countPage;
                 TempData["category_total_page"] = totalPage;
@@ -198,6 +198,10 @@ namespace MaverikStudio.Controllers
             if (Request.Form["name"] == "")
             {
                 TempData["err_category_name"] = "Tên chuyên mục không được để trống";
+                check = false;
+            } else if (Request.Form["name"].Length > 50)
+            {
+                TempData["err_category_name"] = "Tên chuyên mục tối đa 50 ký tự";
                 check = false;
             }
             return check;

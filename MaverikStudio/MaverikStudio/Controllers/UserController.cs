@@ -56,7 +56,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
                 int totalPage = (int)Math.Ceiling((double)db.users.Where(u => u.name.Contains(search) && (filter_group == 0 || u.group_id == filter_group)).ToList().Count / countPage);
-
+                if (totalPage == 0) totalPage = 1;
                 TempData["user_page"] = page;
                 TempData["user_count_page"] = countPage;
                 TempData["user_total_page"] = totalPage;
@@ -316,6 +316,11 @@ namespace MaverikStudio.Controllers
             if (Request.Form["name"] == "")
             {
                 TempData["err_user_name"] = "Tên người dùng không được để trống";
+                check = false;
+            }
+            else if(test.Length > 50)
+            {
+                TempData["err_user_name"] = "Tên người dùng tối đa 50 ký tự";
                 check = false;
             }
             if (Request.Form["address"] == "")

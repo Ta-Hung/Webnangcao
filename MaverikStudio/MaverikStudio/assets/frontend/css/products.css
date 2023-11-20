@@ -1,5 +1,4 @@
 img {
-    user-drag: none;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
@@ -328,6 +327,8 @@ img {
 }
 
 .products__detail-content-right-price {
+    display: flex;
+    align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid rgb(230,230,230);
 }
@@ -348,28 +349,24 @@ img {
 }
 
 .products__detail-content-right-size-watch-element {
-    display: inline-block;
+    display: inline-flex;
     margin: 10px 10px 0 0;
-    width: 40px;
+    min-width: 40px;
     height: 40px;
     border: 1px solid rgb(230,230,230);
     position: relative;
     cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
 }
 
 .products__detail-content-right-size-watch-element.selected {
     border: 1px solid #000;
     background: #000;
     color: #fff;
-}
-
-.products__detail-content-right-size-watch-element span {
-    font-size: 12px;
-    font-weight: 500;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
 }
 
 .products__detail-content-right-action {

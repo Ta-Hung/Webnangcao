@@ -50,7 +50,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
                 int totalPage = (int)Math.Ceiling((double)db.groups.Where(u => u.name.Contains(search)).ToList().Count / countPage);
-
+                if (totalPage == 0) totalPage = 1;
                 TempData["group_page"] = page;
                 TempData["group_count_page"] = countPage;
                 TempData["group_total_page"] = totalPage;
@@ -200,6 +200,11 @@ namespace MaverikStudio.Controllers
             if (Request.Form["name"] == "")
             {
                 TempData["err_group_name"] = "Tên nhóm không được để trống";
+                check = false;
+            }
+            else if (Request.Form["name"].Length > 50)
+            {
+                TempData["err_group_name"] = "Tên nhóm tối đa 50 ký tự";
                 check = false;
             }
             return check;

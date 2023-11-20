@@ -47,7 +47,7 @@
                     }
                 </div>
                 <!-- Phân trang ở đây -->
-                <form action="@Url.Action("Collection", "FrontEnd", new {id = ViewBag.idCategory})" method="get" id="list_product">
+                <form action="@Url.Action("ResultAll", "FrontEnd")" method="get" id="list_product">
                     <div class="row" style="width: 100%; justify-content: center;">
                         <div class="col l-12" style="display: flex; justify-content: center">
                             <input type="submit" style="padding: 10px 15px; font-weight: 700; background-color: transparent; border: unset; font-size: 18px; cursor: pointer;" data-page="1" value="<<" @((int)TempData["product_page"] <= 1 ? "disabled" : "") />
@@ -59,6 +59,7 @@
 
                             <input type="submit" style="padding: 10px 15px; font-weight: 700; background-color: transparent; border: unset; font-size: 18px; cursor: pointer;" data-page="@((int)TempData["product_total_page"])" value=">>" @((int)TempData["product_page"] >= (int)TempData["product_total_page"] ? "disabled" : "") />
                             <input id="data_page" type="text" name="page" value="" style="display: none;" />
+                            <input type="text" name="search" value="@ViewBag.search" style="display: none;" />
                         </div>
                     </div>
                 </form>
@@ -76,7 +77,6 @@
     <script src="~/assets/frontend/js/addcart.js"></script>
     <script>
         HandleSlider('#slider1');
-        HandleSlider('#slider2', 4000, false, '.homepage__slider-control-left', '.homepage__slider-control-right', '.homepage__slider-list-item', '.homepage__slider-item');
 
         $(function () {
             const formListProduct = $("#list-product");

@@ -90,7 +90,7 @@
                                     result = Model.brand_id;
                                 }
                             }
-                            @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).groups.ToList())
+                            @foreach (var item in (new MaverikStudio.Models.WebMaverikStudioEntities1()).brands.ToList())
                             {
                                 <option value="@item.id" @(result != null && result == item.id ? "selected" : "")>@item.name</option>
                             }

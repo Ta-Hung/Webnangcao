@@ -22,7 +22,7 @@ namespace MaverikStudio.Controllers
             var products = db.products
                 .OrderByDescending(u => u.created_at)
                 .Skip(0)
-                .Take(10)
+                .Take(8)
                 .ToList();
 
             return View(products);
@@ -54,7 +54,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
             int totalPage = (int)Math.Ceiling((double)db.products.Where(m => m.category_id == currentCategory.id).ToList().Count / countPage);
-
+            if (totalPage == 0) totalPage = 1;
             TempData["product_page"] = page;
             TempData["product_count_page"] = countPage;
             TempData["product_total_page"] = totalPage;
@@ -88,7 +88,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
             int totalPage = (int)Math.Ceiling((double)db.products.Where(m => m.created_at >= threeMonthsAgo).ToList().Count / countPage);
-
+            if (totalPage == 0) totalPage = 1;
             TempData["product_page"] = page;
             TempData["product_count_page"] = countPage;
             TempData["product_total_page"] = totalPage;
@@ -120,7 +120,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
             int totalPage = (int)Math.Ceiling((double)db.products.Where(m => m.sale > 0).ToList().Count / countPage);
-
+            if (totalPage == 0) totalPage = 1;
             TempData["product_page"] = page;
             TempData["product_count_page"] = countPage;
             TempData["product_total_page"] = totalPage;
@@ -151,7 +151,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
             int totalPage = (int)Math.Ceiling((double)db.products.ToList().Count / countPage);
-
+            if (totalPage == 0) totalPage = 1;
             TempData["product_page"] = page;
             TempData["product_count_page"] = countPage;
             TempData["product_total_page"] = totalPage;
@@ -239,6 +239,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
             int totalPage = (int)Math.Ceiling((double)db.products.Where(m => m.name.Contains(search)).ToList().Count / countPage);
+            if (totalPage == 0) totalPage = 1;
 
             TempData["product_page"] = page;
             TempData["product_count_page"] = countPage;

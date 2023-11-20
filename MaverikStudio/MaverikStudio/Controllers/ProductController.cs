@@ -64,7 +64,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
                 int totalPage = (int)Math.Ceiling((double)db.products.Where(u => u.name.Contains(search) && (filter_brand == 0 || u.brand_id == filter_brand) && (filter_category == 0 || u.category_id == filter_category)).ToList().Count / countPage);
-
+                if (totalPage == 0) totalPage = 1;
                 TempData["product_page"] = page;
                 TempData["product_count_page"] = countPage;
                 TempData["product_total_page"] = totalPage;
@@ -268,6 +268,11 @@ namespace MaverikStudio.Controllers
             if (Request.Form["name"] == "")
             {
                 TempData["err_product_name"] = "Tên sản phẩm không được để trống";
+                check = false;
+            }
+            else if(name.Length > 50)
+            {
+                TempData["err_product_name"] = "Tên sản phẩm tối đa 50 ký tự";
                 check = false;
             }
             else if (db.products.Where(m => m.name == name && m.id != id).ToList().Count > 0)

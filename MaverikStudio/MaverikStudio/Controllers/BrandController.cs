@@ -52,7 +52,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
                 int totalPage = (int)Math.Ceiling((double)db.brands.Where(u => u.name.Contains(search)).ToList().Count / countPage);
-
+                if (totalPage == 0) totalPage = 1;
                 TempData["brand_page"] = page;
                 TempData["brand_count_page"] = countPage;
                 TempData["brand_total_page"] = totalPage;
@@ -226,6 +226,11 @@ namespace MaverikStudio.Controllers
             if (Request.Form["name"] == "")
             {
                 TempData["err_brand_name"] = "Tên thương hiệu không được để trống";
+                check = false;
+            }
+            else if(test.Length > 50)
+            {
+                TempData["err_brand_name"] = "Tên thương hiệu tối đa 50 ký tự";
                 check = false;
             }
             if (Request.Form["address"] == "")

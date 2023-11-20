@@ -49,7 +49,7 @@ namespace MaverikStudio.Controllers
                 .ToList();
 
                 int totalPage = (int)Math.Ceiling((double)db.sizes.Where(u => u.size1.Contains(search)).ToList().Count / countPage);
-
+                if (totalPage == 0) totalPage = 1;
                 TempData["size_page"] = page;
                 TempData["size_count_page"] = countPage;
                 TempData["size_total_page"] = totalPage;
@@ -230,6 +230,11 @@ namespace MaverikStudio.Controllers
             else if (db.sizes.Where(m => m.size1 == sizeName && m.id != id).ToList().Count > 0)
             {
                 TempData["err_size_size1"] = "Size đã tồn tại";
+                check = false;
+            }
+            else if(sizeName.Length > 20)
+            {
+                TempData["err_size_size1"] = "Size tối đa 20 ký tự";
                 check = false;
             }
 
