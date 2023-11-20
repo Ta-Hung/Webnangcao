@@ -122,7 +122,7 @@
         const ctx = document.getElementById('myChart');
 
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                 datasets: [{
@@ -134,8 +134,31 @@
             },
             options: {
                 scales: {
-                    y: {
-                        beginAtZero: true
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                return value.toLocaleString(); // Định dạng giá trị thành chuỗi với dấu phẩy ngăn cách hàng nghìn
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Vnđ'
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Tháng'
+                        }
+                    }]
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                            return 'Doanh thu: ' + value.toLocaleString() + ' Vnđ'; // Định dạng giá trị cho tooltip
+                        }
                     }
                 }
             }
